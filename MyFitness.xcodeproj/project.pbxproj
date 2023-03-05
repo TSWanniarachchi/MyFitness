@@ -13,6 +13,9 @@
 		03038CEA29B48A260073169A /* UIColor +Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03038CE929B48A260073169A /* UIColor +Extensions.swift */; };
 		03038CED29B48DD90073169A /* ColorGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03038CEC29B48DD90073169A /* ColorGuide.swift */; };
 		03038CF129B497540073169A /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03038CF029B497540073169A /* TabBarViewController.swift */; };
+		03AC074E29B4B5E50042CD08 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AC074D29B4B5E50042CD08 /* CustomLabel.swift */; };
+		03AC075029B4F8530042CD08 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AC074F29B4F8530042CD08 /* CustomImageView.swift */; };
+		03AC075229B4F9510042CD08 /* UIView +Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AC075129B4F9510042CD08 /* UIView +Extension.swift */; };
 		03B4961729B4599400389F5C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B4961629B4599400389F5C /* AppDelegate.swift */; };
 		03B4961929B4599500389F5C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B4961829B4599500389F5C /* SceneDelegate.swift */; };
 		03B4962029B45A8F00389F5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03B4961F29B45A8F00389F5C /* Assets.xcassets */; };
@@ -26,6 +29,9 @@
 		03038CE929B48A260073169A /* UIColor +Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor +Extensions.swift"; sourceTree = "<group>"; };
 		03038CEC29B48DD90073169A /* ColorGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGuide.swift; sourceTree = "<group>"; };
 		03038CF029B497540073169A /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		03AC074D29B4B5E50042CD08 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		03AC074F29B4F8530042CD08 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		03AC075129B4F9510042CD08 /* UIView +Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView +Extension.swift"; sourceTree = "<group>"; };
 		03B4961329B4599100389F5C /* MyFitness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFitness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03B4961629B4599400389F5C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03B4961829B4599500389F5C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,7 +71,9 @@
 		03038CE629B487C40073169A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				03AC074D29B4B5E50042CD08 /* CustomLabel.swift */,
 				03038CE729B4880C0073169A /* CustomButton.swift */,
+				03AC074F29B4F8530042CD08 /* CustomImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -117,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				03038CE929B48A260073169A /* UIColor +Extensions.swift */,
+				03AC075129B4F9510042CD08 /* UIView +Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -230,13 +239,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				03038CED29B48DD90073169A /* ColorGuide.swift in Sources */,
+				03AC074E29B4B5E50042CD08 /* CustomLabel.swift in Sources */,
 				03038CE429B47B4F0073169A /* WelcomeViewController.swift in Sources */,
 				03038CE829B4880C0073169A /* CustomButton.swift in Sources */,
 				03038CF129B497540073169A /* TabBarViewController.swift in Sources */,
 				03B4961729B4599400389F5C /* AppDelegate.swift in Sources */,
 				03B4961929B4599500389F5C /* SceneDelegate.swift in Sources */,
 				03038CE229B47B2A0073169A /* HomeViewController.swift in Sources */,
+				03AC075229B4F9510042CD08 /* UIView +Extension.swift in Sources */,
 				03038CEA29B48A260073169A /* UIColor +Extensions.swift in Sources */,
+				03AC075029B4F8530042CD08 /* CustomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
