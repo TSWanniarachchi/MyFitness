@@ -11,7 +11,7 @@ class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let vc1 = HomeViewController()
         let vc2 = HomeViewController()
         let vc3 = HomeViewController()
@@ -39,6 +39,8 @@ class TabBarViewController: UITabBarController {
         nav4.tabBarItem = UITabBarItem(title: "Profile",
                                        image: UIImage(systemName: "person.crop.circle"),
                                        tag: 4)
+        
+        self.tabBar.tintColor = ColorGuide.primary
         
         for nav in [nav1, nav2, nav3, nav4]{
             nav.navigationBar.prefersLargeTitles = true
