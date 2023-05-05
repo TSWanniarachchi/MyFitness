@@ -37,21 +37,10 @@ class WelcomeViewController: UIViewController {
         view.addSubview(infoLabel)
         view.addSubview(getStartedButton)
         
-        setUpValues()
         setUpConstraints()
-        
+        setUpValues()
+                
         getStartedButton.addTarget(self, action: #selector(didTapGetStarted), for: .touchUpInside)
-    }
-    
-    //  MARK: - Setup Values
-    private func setUpValues() {
-        backgroundImageView.image = UIImage(named: "background_welcome")
-        let headerText = NSMutableAttributedString()
-        headerText.append(NSAttributedString(string: "START ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]));
-        headerText.append(NSAttributedString(string: "YOUR EXCERCISE ", attributes: [NSAttributedString.Key.foregroundColor: ColorGuide.primary]))
-        headerText.append(NSAttributedString(string: "RIGHT NOW", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]))
-        headerLabel.attributedText = headerText
-        infoLabel.text = "Start your traning today before you before you regret your decision for your body."
     }
     
     //  MARK: - UI Setup Constraints
@@ -77,6 +66,17 @@ class WelcomeViewController: UIViewController {
             getStartedButton.heightAnchor.constraint(equalToConstant: 55),
         ])
         
+    }
+    
+    //  MARK: - Setup Values
+    private func setUpValues() {
+        backgroundImageView.image = UIImage(named: "background_welcome")
+        let headerText = NSMutableAttributedString()
+        headerText.append(NSAttributedString(string: "START ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]));
+        headerText.append(NSAttributedString(string: "YOUR EXCERCISE ", attributes: [NSAttributedString.Key.foregroundColor: ColorGuide.primary]))
+        headerText.append(NSAttributedString(string: "RIGHT NOW", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]))
+        headerLabel.attributedText = headerText
+        infoLabel.text = "Start your traning today before you before you regret your decision for your body."
     }
     
     // MARK: - Selectors
