@@ -11,6 +11,22 @@ class HomeViewController: UIViewController {
                                            textColor: .secondaryLabel,
                                            textAlignment: .left)
     
+    private let stepLabel = CustomLabel(labelType: .header3,
+                                            textColor: .label,
+                                            textAlignment: .left)
+    
+    private let calorieBurnLabel = CustomLabel(labelType: .header3,
+                                            textColor: .label,
+                                            textAlignment: .left)
+    
+    private let progressLabel = CustomLabel(labelType: .header3,
+                                            textColor: .label,
+                                            textAlignment: .left)
+    
+    private let summaryChartLabel = CustomLabel(labelType: .header3,
+                                            textColor: .label,
+                                            textAlignment: .left)
+    
     private let usernameLabel = CustomLabel(labelType: .header3,
                                             textColor: .label,
                                             textAlignment: .left)
@@ -31,6 +47,10 @@ class HomeViewController: UIViewController {
                                                title: "Leg",
                                                fontsize: .med)
     
+    private let sectionHeader1 = CustomLabel(labelType: .header3,
+                                            textColor: .label,
+                                            textAlignment: .left)
+    
     private let exerciseCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -42,6 +62,10 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
     
+    private let sectionHeader2 = CustomLabel(labelType: .header3,
+                                            textColor: .label,
+                                            textAlignment: .left)
+    
     private let workoutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -52,26 +76,15 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
     
+    private let scrollViewLabel = CustomLabel(labelType: .text1,
+                                           textColor: .systemBackground,
+                                           textAlignment: .left)
     
     
- 
-    let foodImageView1: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.image = UIImage(named: "E1")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    
+    
 
-    let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "St explicabo."
-        label.numberOfLines = 0
-        label.sizeToFit()
-        label.textColor = .label
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+
     
     
     let scrollView = UIScrollView()
@@ -91,7 +104,6 @@ class HomeViewController: UIViewController {
         )
         notificationButton.tintColor = ColorGuide.primary
         navigationItem.rightBarButtonItem = notificationButton
-        
         
         
         
@@ -128,20 +140,19 @@ class HomeViewController: UIViewController {
         contentView.addSubview(userProfileImageView)
         contentView.addSubview(welcomeLabel)
         contentView.addSubview(usernameLabel)
+        contentView.addSubview(stepLabel)
+        contentView.addSubview(calorieBurnLabel)
+        contentView.addSubview(progressLabel)
+        contentView.addSubview(summaryChartLabel)
         contentView.addSubview(category1Button)
         contentView.addSubview(category2Button)
         contentView.addSubview(category3Button)
         contentView.addSubview(category4Button)
-     
-        
-        
-        
-        contentView.addSubview(foodImageView1)
-        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(sectionHeader1)
         contentView.addSubview(exerciseCollectionView)
+        contentView.addSubview(sectionHeader2)
         contentView.addSubview(workoutCollectionView)
-        
-                
+        contentView.addSubview(scrollViewLabel)
         
         userProfileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -35).isActive = true
         userProfileImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
@@ -156,43 +167,71 @@ class HomeViewController: UIViewController {
         usernameLabel.leftAnchor.constraint(equalTo: userProfileImageView.rightAnchor, constant: 15).isActive = true
         usernameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
         
-        foodImageView1.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
-        foodImageView1.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        foodImageView1.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 00.98).isActive = true
-        foodImageView1.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        stepLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
+        stepLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        stepLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3).isActive = true
+        stepLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        stepLabel.backgroundColor = .tertiaryLabel
         
-        category1Button.topAnchor.constraint(equalTo: foodImageView1.bottomAnchor, constant: 10).isActive = true
+        calorieBurnLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
+        calorieBurnLabel.leftAnchor.constraint(equalTo: stepLabel.rightAnchor, constant: 5).isActive = true
+        calorieBurnLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3).isActive = true
+        calorieBurnLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        calorieBurnLabel.backgroundColor = .tertiaryLabel
+        
+        progressLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
+        progressLabel.leftAnchor.constraint(equalTo: calorieBurnLabel.rightAnchor, constant: 5).isActive = true
+        progressLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
+        progressLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        progressLabel.backgroundColor = .tertiaryLabel
+        
+        summaryChartLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 5).isActive = true
+        summaryChartLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        summaryChartLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
+        summaryChartLabel.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        summaryChartLabel.backgroundColor = .tertiaryLabel
+        
+        sectionHeader1.topAnchor.constraint(equalTo: summaryChartLabel.bottomAnchor, constant: 10).isActive = true
+        sectionHeader1.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        sectionHeader1.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
+        
+        category1Button.topAnchor.constraint(equalTo: sectionHeader1.bottomAnchor, constant: 10).isActive = true
         category1Button.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         category1Button.widthAnchor.constraint(equalToConstant: 88).isActive = true
         
-        category2Button.topAnchor.constraint(equalTo: foodImageView1.bottomAnchor, constant: 10).isActive = true
+        category2Button.topAnchor.constraint(equalTo: sectionHeader1.bottomAnchor, constant: 10).isActive = true
         category2Button.leftAnchor.constraint(equalTo: category1Button.rightAnchor, constant: 10).isActive = true
         category2Button.widthAnchor.constraint(equalToConstant: 88).isActive = true
         
-        category3Button.topAnchor.constraint(equalTo: foodImageView1.bottomAnchor, constant: 10).isActive = true
+        category3Button.topAnchor.constraint(equalTo: sectionHeader1.bottomAnchor, constant: 10).isActive = true
         category3Button.leftAnchor.constraint(equalTo: category2Button.rightAnchor, constant: 10).isActive = true
         category3Button.widthAnchor.constraint(equalToConstant: 88).isActive = true
         
-        category4Button.topAnchor.constraint(equalTo: foodImageView1.bottomAnchor, constant: 10).isActive = true
+        category4Button.topAnchor.constraint(equalTo: sectionHeader1.bottomAnchor, constant: 10).isActive = true
         category4Button.leftAnchor.constraint(equalTo: category3Button.rightAnchor, constant: 10).isActive = true
         category4Button.widthAnchor.constraint(equalToConstant: 88).isActive = true
         
-        exerciseCollectionView.topAnchor.constraint(equalTo: category4Button.bottomAnchor, constant: 10).isActive = true
+        exerciseCollectionView.topAnchor.constraint(equalTo: category1Button.bottomAnchor, constant: 10).isActive = true
         exerciseCollectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         exerciseCollectionView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 00.98).isActive = true
         exerciseCollectionView.heightAnchor.constraint(equalToConstant: 580).isActive = true
         exerciseCollectionView.backgroundColor = .systemOrange
         
-        workoutCollectionView.topAnchor.constraint(equalTo: exerciseCollectionView.bottomAnchor, constant: 10).isActive = true
+        sectionHeader2.topAnchor.constraint(equalTo: exerciseCollectionView.bottomAnchor, constant: 10).isActive = true
+        sectionHeader2.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        sectionHeader2.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
+                
+        workoutCollectionView.topAnchor.constraint(equalTo: sectionHeader2.bottomAnchor, constant: 10).isActive = true
         workoutCollectionView.heightAnchor.constraint(equalToConstant: 190).isActive = true
         workoutCollectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         workoutCollectionView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 00.98).isActive = true
         workoutCollectionView.backgroundColor = .systemOrange
         
-        subtitleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        subtitleLabel.topAnchor.constraint(equalTo: workoutCollectionView.bottomAnchor, constant: 25).isActive = true
-        subtitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
-        subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        scrollViewLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        scrollViewLabel.topAnchor.constraint(equalTo: workoutCollectionView.bottomAnchor, constant: 0).isActive = true
+        scrollViewLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
+        scrollViewLabel.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        scrollViewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
     }
     
@@ -211,6 +250,9 @@ class HomeViewController: UIViewController {
         userProfileImageView.image = UIImage(named: "user1")
         welcomeLabel.text = "WELCOME BACK 👋"
         usernameLabel.text = "MICHALE BERNANDO"
+        sectionHeader1.text = "Exercise List"
+        sectionHeader2.text = "Home Workout Plans"
+        stepLabel.text = "6589"
     }
     
     // MARK: - Selectors
@@ -221,25 +263,25 @@ class HomeViewController: UIViewController {
     @objc private func didTapCat1Button(){
         activeButton(uiButton: category1Button)
         print("DEBUG PRINT:", "didTapCat1Button")
-        subtitleLabel.text = "ABS"
+        scrollViewLabel.text = "ABS"
     }
     
     @objc private func didTapCat2Button() {
         activeButton(uiButton: category2Button)
         print("DEBUG PRINT:", "didTapCat2Button")
-        subtitleLabel.text = "Chest"
+        scrollViewLabel.text = "Chest"
     }
     
     @objc private func didTapCat3Button() {
         activeButton(uiButton: category3Button)
         print("DEBUG PRINT:", "didTapCat3Button")
-        subtitleLabel.text = "Arm"
+        scrollViewLabel.text = "Arm"
     }
     
     @objc private func didTapCat4Button() {
         activeButton(uiButton: category4Button)
         print("DEBUG PRINT:", "didTapCat4Button")
-        subtitleLabel.text = "Leg"
+        scrollViewLabel.text = "Leg"
     }
     
     private func activeButton(uiButton: UIButton) {
