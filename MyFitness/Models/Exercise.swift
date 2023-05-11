@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Exercise Model
-struct Exercise: Codable {
+struct ExerciseModel: Codable {
     let id: String
     let name: String
     let group: String
@@ -20,8 +20,6 @@ struct Exercise: Codable {
     let burnedCalories: Int
     let media: MediaField
     let description: String
-    let isActive: Bool
-    let createdDateTime: Date
 }
 
 struct ContextField: Codable {
