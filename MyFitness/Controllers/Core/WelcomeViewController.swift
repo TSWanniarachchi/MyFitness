@@ -19,8 +19,8 @@ class WelcomeViewController: UIViewController {
                                           textAlignment: .left)
     
     private let infoLabel = CustomLabel(labelType: .paragraph2,
-                                          textColor: ColorGuide.secondary,
-                                          textAlignment: .left)
+                                        textColor: ColorGuide.secondary,
+                                        textAlignment: .left)
     
     private let getStartedButton = CustomButton(buttonType: .primary,
                                                 title: "Get Started",
@@ -32,15 +32,19 @@ class WelcomeViewController: UIViewController {
         title = ""
         view.backgroundColor = .systemBackground
         
+        addSubviews()
+        setUpConstraints()
+        setUpValues()
+        
+        getStartedButton.addTarget(self, action: #selector(didTapGetStarted), for: .touchUpInside)
+    }
+    
+    //  MARK: - Add Subviews
+    private func addSubviews(){
         view.addSubview(backgroundImageView)
         view.addSubview(headerLabel)
         view.addSubview(infoLabel)
         view.addSubview(getStartedButton)
-        
-        setUpConstraints()
-        setUpValues()
-                
-        getStartedButton.addTarget(self, action: #selector(didTapGetStarted), for: .touchUpInside)
     }
     
     //  MARK: - UI Setup Constraints
