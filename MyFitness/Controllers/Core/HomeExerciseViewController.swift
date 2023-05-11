@@ -1,6 +1,16 @@
+//
+//  ExerciseDetailViewController.swift
+//  MyFitness
+//
+//  Created by Sachin on 3/5/23.
+//
+
 import UIKit
 
 class HomeViewController: UIViewController {
+    
+    //MARK: - Variables
+    var HomeWorkoutPlan = ["Stay in Shape", "Immunity Booster", "Bumbbell", "Band"]
     
     //MARK: - UI Components
     private let userProfileImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
@@ -11,25 +21,25 @@ class HomeViewController: UIViewController {
                                            textColor: .secondaryLabel,
                                            textAlignment: .left)
     
-    private let stepLabel = CustomLabel(labelType: .header3,
-                                            textColor: .label,
-                                            textAlignment: .left)
-    
-    private let calorieBurnLabel = CustomLabel(labelType: .header3,
-                                            textColor: .label,
-                                            textAlignment: .left)
-    
-    private let progressLabel = CustomLabel(labelType: .header3,
-                                            textColor: .label,
-                                            textAlignment: .left)
-    
-    private let summaryChartLabel = CustomLabel(labelType: .header3,
-                                            textColor: .label,
-                                            textAlignment: .left)
-    
     private let usernameLabel = CustomLabel(labelType: .header3,
                                             textColor: .label,
                                             textAlignment: .left)
+    
+    private let stepLabel = CustomLabel(labelType: .card,
+                                        textColor: .label,
+                                        textAlignment: .center)
+    
+    private let calorieBurnLabel = CustomLabel(labelType: .card,
+                                               textColor: .label,
+                                               textAlignment: .center)
+    
+    private let progressLabel = CustomLabel(labelType: .card,
+                                            textColor: .label,
+                                            textAlignment: .center)
+    
+    private let summaryChartLabel = CustomLabel(labelType: .card,
+                                                textColor: .label,
+                                                textAlignment: .center)
     
     private let category1Button = CustomButton(buttonType: .primary,
                                                title: "ABS",
@@ -48,8 +58,8 @@ class HomeViewController: UIViewController {
                                                fontsize: .med)
     
     private let sectionHeader1 = CustomLabel(labelType: .header3,
-                                            textColor: .label,
-                                            textAlignment: .left)
+                                             textColor: .label,
+                                             textAlignment: .left)
     
     private let exerciseCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -63,8 +73,8 @@ class HomeViewController: UIViewController {
     }()
     
     private let sectionHeader2 = CustomLabel(labelType: .header3,
-                                            textColor: .label,
-                                            textAlignment: .left)
+                                             textColor: .label,
+                                             textAlignment: .left)
     
     private let workoutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -72,23 +82,26 @@ class HomeViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(UICollectionViewCell.self,forCellWithReuseIdentifier: "cell")
+        collectionView.register(HomeWorkoutPlanCollectionViewCell.self,
+                                forCellWithReuseIdentifier: HomeWorkoutPlanCollectionViewCell.cellIdentifier)
         return collectionView
     }()
     
     private let scrollViewLabel = CustomLabel(labelType: .text1,
-                                           textColor: .systemBackground,
-                                           textAlignment: .left)
+                                              textColor: .systemBackground,
+                                              textAlignment: .left)
     
+    private let scrollView : UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     
-    
-    
-
-
-    
-    
-    let scrollView = UIScrollView()
-    let contentView = UIView()
+    private let contentView : UIView = {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        return contentView
+    }()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -105,23 +118,20 @@ class HomeViewController: UIViewController {
         notificationButton.tintColor = ColorGuide.primary
         navigationItem.rightBarButtonItem = notificationButton
         
-        
-        
         setupScrollView()
-        setupViews()
+        addSubviews()
+        setUpConstraints()
         setUpCllectionView()
         setUpValues()
         
-        category1Button.addTarget(self, action: #selector(didTapCat1Button), for: .touchUpInside)
-        category2Button.addTarget(self, action: #selector(didTapCat2Button), for: .touchUpInside)
-        category3Button.addTarget(self, action: #selector(didTapCat3Button), for: .touchUpInside)
-        category4Button.addTarget(self, action: #selector(didTapCat4Button), for: .touchUpInside)
-        
+        category1Button.addTarget(self, action: #selector(didTapCategory1Button), for: .touchUpInside)
+        category2Button.addTarget(self, action: #selector(didTapCategory2Button), for: .touchUpInside)
+        category3Button.addTarget(self, action: #selector(didTapCategory3Button), for: .touchUpInside)
+        category4Button.addTarget(self, action: #selector(didTapCategory4Button), for: .touchUpInside)
     }
     
+    //MARK: - SetUp ScrollView
     func setupScrollView() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -136,7 +146,8 @@ class HomeViewController: UIViewController {
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
     }
     
-    func setupViews(){
+    //  MARK: - Add Subviews
+    private func addSubviews(){
         contentView.addSubview(userProfileImageView)
         contentView.addSubview(welcomeLabel)
         contentView.addSubview(usernameLabel)
@@ -153,7 +164,10 @@ class HomeViewController: UIViewController {
         contentView.addSubview(sectionHeader2)
         contentView.addSubview(workoutCollectionView)
         contentView.addSubview(scrollViewLabel)
-        
+    }
+    
+    //  MARK: - UI Setup Constraints
+    func setUpConstraints(){
         userProfileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -35).isActive = true
         userProfileImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         userProfileImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
@@ -171,25 +185,21 @@ class HomeViewController: UIViewController {
         stepLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         stepLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3).isActive = true
         stepLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
-        stepLabel.backgroundColor = .tertiaryLabel
         
         calorieBurnLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
         calorieBurnLabel.leftAnchor.constraint(equalTo: stepLabel.rightAnchor, constant: 5).isActive = true
         calorieBurnLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3).isActive = true
         calorieBurnLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
-        calorieBurnLabel.backgroundColor = .tertiaryLabel
         
         progressLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
         progressLabel.leftAnchor.constraint(equalTo: calorieBurnLabel.rightAnchor, constant: 5).isActive = true
         progressLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
         progressLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
-        progressLabel.backgroundColor = .tertiaryLabel
         
-        summaryChartLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 5).isActive = true
+        summaryChartLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8).isActive = true
         summaryChartLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         summaryChartLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
         summaryChartLabel.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        summaryChartLabel.backgroundColor = .tertiaryLabel
         
         sectionHeader1.topAnchor.constraint(equalTo: summaryChartLabel.bottomAnchor, constant: 10).isActive = true
         sectionHeader1.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
@@ -215,27 +225,24 @@ class HomeViewController: UIViewController {
         exerciseCollectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         exerciseCollectionView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 00.98).isActive = true
         exerciseCollectionView.heightAnchor.constraint(equalToConstant: 580).isActive = true
-        exerciseCollectionView.backgroundColor = .systemOrange
         
         sectionHeader2.topAnchor.constraint(equalTo: exerciseCollectionView.bottomAnchor, constant: 10).isActive = true
         sectionHeader2.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         sectionHeader2.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
-                
+        
         workoutCollectionView.topAnchor.constraint(equalTo: sectionHeader2.bottomAnchor, constant: 10).isActive = true
-        workoutCollectionView.heightAnchor.constraint(equalToConstant: 190).isActive = true
+        workoutCollectionView.heightAnchor.constraint(equalToConstant: 148).isActive = true
         workoutCollectionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         workoutCollectionView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 00.98).isActive = true
-        workoutCollectionView.backgroundColor = .systemOrange
         
         scrollViewLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         scrollViewLabel.topAnchor.constraint(equalTo: workoutCollectionView.bottomAnchor, constant: 0).isActive = true
         scrollViewLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
-        scrollViewLabel.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        scrollViewLabel.heightAnchor.constraint(equalToConstant: 3).isActive = true
         scrollViewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        
     }
     
-    
+    //  MARK: - Setup CllectionView
     private func setUpCllectionView(){
         exerciseCollectionView.delegate = self
         exerciseCollectionView.dataSource = self
@@ -244,7 +251,6 @@ class HomeViewController: UIViewController {
         workoutCollectionView.dataSource = self
     }
     
-    
     //  MARK: - Setup Values
     private func setUpValues() {
         userProfileImageView.image = UIImage(named: "user1")
@@ -252,7 +258,10 @@ class HomeViewController: UIViewController {
         usernameLabel.text = "MICHALE BERNANDO"
         sectionHeader1.text = "Exercise List"
         sectionHeader2.text = "Home Workout Plans"
-        stepLabel.text = "6589"
+        stepLabel.text = "Steps 12"
+        calorieBurnLabel.text = "CAL 456"
+        progressLabel.text = "7/12"
+        summaryChartLabel.text = "Summary Bar Chart"
     }
     
     // MARK: - Selectors
@@ -260,41 +269,37 @@ class HomeViewController: UIViewController {
         print("DEBUG PRINT:", "didTapNotification")
     }
     
-    @objc private func didTapCat1Button(){
+    @objc private func didTapCategory1Button(){
         activeButton(uiButton: category1Button)
-        print("DEBUG PRINT:", "didTapCat1Button")
-        scrollViewLabel.text = "ABS"
+        print("DEBUG PRINT:", "didTapCategory1Button")
     }
     
-    @objc private func didTapCat2Button() {
+    @objc private func didTapCategory2Button() {
         activeButton(uiButton: category2Button)
-        print("DEBUG PRINT:", "didTapCat2Button")
-        scrollViewLabel.text = "Chest"
+        print("DEBUG PRINT:", "didTapCategory2Button")
     }
     
-    @objc private func didTapCat3Button() {
+    @objc private func didTapCategory3Button() {
         activeButton(uiButton: category3Button)
-        print("DEBUG PRINT:", "didTapCat3Button")
-        scrollViewLabel.text = "Arm"
+        print("DEBUG PRINT:", "didTapCategory3Button")
     }
     
-    @objc private func didTapCat4Button() {
+    @objc private func didTapCategory4Button() {
         activeButton(uiButton: category4Button)
-        print("DEBUG PRINT:", "didTapCat4Button")
-        scrollViewLabel.text = "Leg"
+        print("DEBUG PRINT:", "didTapCategory4Button")
     }
     
     private func activeButton(uiButton: UIButton) {
-       
         category1Button.backgroundColor = .tertiaryLabel
         category2Button.backgroundColor = .tertiaryLabel
         category3Button.backgroundColor = .tertiaryLabel
         category4Button.backgroundColor = .tertiaryLabel
-                
+        
         uiButton.backgroundColor = ColorGuide.primary
     }
-  
+    
 }
+
 
 //MARK: - Collection View Section
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -303,7 +308,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         if collectionView == exerciseCollectionView {
             return 5
         } else if collectionView == workoutCollectionView {
-            return 3
+            return 4
         }
         return 0
     }
@@ -317,7 +322,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         if collectionView == exerciseCollectionView {
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ExerciseListCollectionViewCell.cellIdentifier,
@@ -331,15 +335,19 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                              difficultyLevel: 2)
             return cell
         } else if collectionView == workoutCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-            cell.backgroundColor = .systemBlue
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: HomeWorkoutPlanCollectionViewCell.cellIdentifier,
+                for: indexPath
+            ) as? HomeWorkoutPlanCollectionViewCell else {
+                fatalError("Unsupported Cell")
+            }
+            cell.setUpValues(exerciseImage: HomeWorkoutPlan[indexPath.row])
             return cell
         }
         return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    
         if collectionView == exerciseCollectionView {
             let bounds = UIScreen.main.bounds
             let width = (bounds.width - 35) / 2
@@ -347,7 +355,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         } else if collectionView == workoutCollectionView {
             let bounds = UIScreen.main.bounds
             let width = (bounds.width - 50)
-            return CGSize(width: width, height: width * 0.5)
+            return CGSize(width: width, height: width * 0.4)
         }
         
         // Default size
@@ -355,31 +363,3 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
