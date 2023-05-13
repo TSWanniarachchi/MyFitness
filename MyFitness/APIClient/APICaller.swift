@@ -64,7 +64,7 @@ final class APICaller {
         
         var request = URLRequest(url: apiURL)
         request.httpMethod = type.rawValue
-        request.timeoutInterval = 30
+        request.timeoutInterval = 60
         
         if (type == .POST){
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
