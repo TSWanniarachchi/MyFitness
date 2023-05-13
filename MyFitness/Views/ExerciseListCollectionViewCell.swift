@@ -106,12 +106,12 @@ class ExerciseListCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Set Up Values
-    public func setUpValues(exerciseImage: String, exerciseName: String, equipment: String, difficultyLevel: Int)
+    public func setUpValues(exercise: ExerciseModel)
     {
-        self.exerciseImageView.image = UIImage(named: exerciseImage)
-        self.exerciseNameLabel.text = exerciseName
-        self.equipmentLabel.text = equipment
-        switch difficultyLevel {
+        self.exerciseImageView.image = UIImage(named: exercise.media.image)
+        self.exerciseNameLabel.text = exercise.name
+        self.equipmentLabel.text = exercise.equipment
+        switch exercise.difficultyLevel {
         case 1:
             difficultyLevelLabel.text = "⚡️"
         case 2:
