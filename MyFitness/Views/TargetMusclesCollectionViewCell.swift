@@ -8,10 +8,10 @@
 import UIKit
 import QuartzCore
 
-class TragetMusclesCollectionViewCell: UICollectionViewCell {
+class TargetMusclesCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Variables
-    static let cellIdentifier = "TragetMusclesCollectionViewCell"
+    static let cellIdentifier = "TargetMusclesCollectionViewCell"
     
     //MARK: - UI Components   
     private let musclesImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
