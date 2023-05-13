@@ -433,4 +433,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         return CGSize(width: 50, height: 50)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedExercise =  ExerciseData[indexPath.row]
+        let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
 }
