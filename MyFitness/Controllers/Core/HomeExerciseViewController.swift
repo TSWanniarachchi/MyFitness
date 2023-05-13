@@ -11,8 +11,12 @@ class HomeViewController: UIViewController {
     
     //MARK: - Variables
     var HomeWorkoutPlan = ["Stay in Shape", "Immunity Booster", "Bumbbell", "Band"]
+    var ExerciseData = [ExerciseModel]()
     
     //MARK: - UI Components
+    private let spinner = CustomSpinner(size: .med,
+                                        tintColor: ColorGuide.primary)
+    
     private let userProfileImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
                                                        imageType: .avatar,
                                                        imageLayout: .light)
@@ -42,11 +46,11 @@ class HomeViewController: UIViewController {
                                                 textAlignment: .center)
     
     private let category1Button = CustomButton(buttonType: .primary,
-                                               title: "ABS",
+                                               title: "Chest",
                                                fontsize: .med)
     
     private let category2Button = CustomButton(buttonType: .secondary,
-                                               title: "Chest",
+                                               title: "ABS",
                                                fontsize: .med)
     
     private let category3Button = CustomButton(buttonType: .secondary,
@@ -148,6 +152,7 @@ class HomeViewController: UIViewController {
     
     //  MARK: - Add Subviews
     private func addSubviews(){
+        contentView.addSubview(spinner)
         contentView.addSubview(userProfileImageView)
         contentView.addSubview(welcomeLabel)
         contentView.addSubview(usernameLabel)
@@ -168,6 +173,11 @@ class HomeViewController: UIViewController {
     
     //  MARK: - UI Setup Constraints
     func setUpConstraints(){
+        spinner.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        spinner.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        spinner.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        
         userProfileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -35).isActive = true
         userProfileImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         userProfileImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
@@ -253,15 +263,71 @@ class HomeViewController: UIViewController {
     
     //  MARK: - Setup Values
     private func setUpValues() {
-        userProfileImageView.image = UIImage(named: "user1")
+        userProfileImageView.image = UIImage(named: "avatar")
         welcomeLabel.text = "WELCOME BACK 👋"
         usernameLabel.text = "MICHALE BERNANDO"
-        sectionHeader1.text = "Exercise List"
-        sectionHeader2.text = "Home Workout Plans"
         stepLabel.text = "Steps 12"
         calorieBurnLabel.text = "CAL 456"
         progressLabel.text = "7/12"
         summaryChartLabel.text = "Summary Bar Chart"
+        sectionHeader1.text = "Exercise List"
+        sectionHeader2.text = "Home Workout Plans"
+                
+        visibleComponents(isVisible: false)
+        fetchExerciseData(category: category1Button.title(for: .normal)!)
+    }
+    
+    // Fetching Data from API Call
+    private func fetchExerciseData(category: String) {
+
+        // Create API request
+        let request = Request(endpoint: .exercises,
+                              pathComponents: ["category", category])
+        
+        // Call API request & get response
+        APICaller.shared.getExercises(URL: request.url) { result in
+            DispatchQueue.main.async {
+                
+                switch result {
+                case .success(let model):
+
+                    self.ExerciseData = model
+                    self.exerciseCollectionView.reloadData()
+                    self.visibleComponents(isVisible: true)
+
+                case .failure(_):
+
+                    let alert = UIAlertController(title: "Error",
+                                                  message: String(describing: "Error occurred while fetching exercises."),
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss",
+                                                  style: .default,
+                                                  handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                } // end switch
+
+            } // end DispatchQueue
+        }// end APICaller
+        
+    }
+    
+    //  MARK: - Visible Components
+    private func visibleComponents(isVisible: Bool) {
+        if isVisible {
+            DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
+                self.spinner.stopAnimating()
+                self.exerciseCollectionView.isHidden = false
+                UIView.animate(withDuration: 0.4){
+                    self.exerciseCollectionView.alpha = 1
+                }
+            })
+        }
+        else {
+            spinner.startAnimating()
+            self.exerciseCollectionView.isHidden = true
+            self.exerciseCollectionView.alpha = 0
+        }
     }
     
     // MARK: - Selectors
@@ -272,21 +338,29 @@ class HomeViewController: UIViewController {
     @objc private func didTapCategory1Button(){
         activeButton(uiButton: category1Button)
         print("DEBUG PRINT:", "didTapCategory1Button")
+        
+        fetchExerciseData(category: category1Button.title(for: .normal)!)
     }
     
     @objc private func didTapCategory2Button() {
         activeButton(uiButton: category2Button)
         print("DEBUG PRINT:", "didTapCategory2Button")
+        
+        fetchExerciseData(category: category2Button.title(for: .normal)!)
     }
     
     @objc private func didTapCategory3Button() {
         activeButton(uiButton: category3Button)
         print("DEBUG PRINT:", "didTapCategory3Button")
+        
+        fetchExerciseData(category: category3Button.title(for: .normal)!)
     }
     
     @objc private func didTapCategory4Button() {
         activeButton(uiButton: category4Button)
         print("DEBUG PRINT:", "didTapCategory4Button")
+        
+        fetchExerciseData(category: category4Button.title(for: .normal)!)
     }
     
     private func activeButton(uiButton: UIButton) {
@@ -306,7 +380,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == exerciseCollectionView {
-            return 5
+            return ExerciseData.count
         } else if collectionView == workoutCollectionView {
             return 4
         }
@@ -329,10 +403,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             ) as? ExerciseListCollectionViewCell else {
                 fatalError("Unsupported Cell")
             }
-            cell.setUpValues(exerciseImage: "E03",
-                             exerciseName: "Bench Press",
-                             equipment: "Barbell",
-                             difficultyLevel: 2)
+            cell.setUpValues(exercise: ExerciseData[indexPath.row])
             return cell
         } else if collectionView == workoutCollectionView {
             guard let cell = collectionView.dequeueReusableCell(
