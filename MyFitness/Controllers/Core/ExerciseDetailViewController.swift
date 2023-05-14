@@ -10,44 +10,64 @@ import UIKit
 class ExerciseDetailViewController: UIViewController {
     
     //MARK: - Variables
+    var ExerciseData = [ExerciseModel]()
     
     //MARK: - UI Components
+    private let spinner = CustomSpinner(size: .med,
+                                        tintColor: ColorGuide.primary)
+    
     private let exerciseImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
                                                     imageType: .page,
                                                     imageLayout: .dark)
     
-    private let exerciseCategoryLabel = CustomLabel(labelType: .header4,
-                                                    textColor: ColorGuide.primary,
-                                                textAlignment: .left)
+    private let categoryLabel = CustomLabel(labelType: .header3,
+                                            textColor: ColorGuide.primary,
+                                            textAlignment: .left)
+    
+    private let difficultyLevelLabel = CustomLabel(labelType: .header3,
+                                                   textColor: .secondaryLabel,
+                                                   textAlignment: .right)
     
     private let exerciseNameLabel = CustomLabel(labelType: .header2,
                                                 textColor: .label,
                                                 textAlignment: .left)
     
-    private let calorieLabel = CustomLabel(labelType: .text1,
-                                           textColor: .label,
-                                           textAlignment: .left)
+    private let equipmentLabel = CustomLabel(labelType: .text1,
+                                             textColor: .secondaryLabel,
+                                             textAlignment: .left)
     
-    private let timeLabel = CustomLabel(labelType: .text1,
-                                          textColor: .label,
-                                        textAlignment: .left)
+    private let burnedCaloriesLabel = CustomLabel(labelType: .text1,
+                                                  textColor: .label,
+                                                  textAlignment: .left)
+    
+    private let durationLabel = CustomLabel(labelType: .text1,
+                                            textColor: .label,
+                                            textAlignment: .right)
     
     private let horizontalLine = CustomHorizontalBar(backgroundColor: ColorGuide.secondary)
     
-    private let tragetMusclesHeaderLabel = CustomLabel(labelType: .header3,
-                                                        textColor: .label,
-                                                        textAlignment: .left)
+    private let targetMusclesHeaderLabel = CustomLabel(labelType: .header3,
+                                                       textColor: .label,
+                                                       textAlignment: .left)
     
-    private let tragetMusclesCollectionView: UICollectionView = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 0)
-            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(TragetMusclesCollectionViewCell.self,
-                                forCellWithReuseIdentifier: TragetMusclesCollectionViewCell.cellIdentifier)
-            return collectionView
-        }()
+    private let targetMusclesCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(TargetMusclesCollectionViewCell.self,
+                                forCellWithReuseIdentifier: TargetMusclesCollectionViewCell.cellIdentifier)
+        return collectionView
+    }()
+    
+    private let contextHeaderLabel = CustomLabel(labelType: .header3,
+                                                 textColor: .label,
+                                                 textAlignment: .left)
+    
+    private let contextLabel = CustomLabel(labelType: .paragraph1,
+                                           textColor: ColorGuide.secondary,
+                                           textAlignment: .left)
     
     private let descriptionHeaderLabel = CustomLabel(labelType: .header3,
                                                      textColor: .label,
@@ -57,173 +77,195 @@ class ExerciseDetailViewController: UIViewController {
                                                textColor: ColorGuide.secondary,
                                                textAlignment: .left)
     
-    private let exerciseHeaderLabel = CustomLabel(labelType: .header3,
-                                                     textColor: .label,
-                                                     textAlignment: .left)
+    //MARK: - Initialization
+    init(exercise: ExerciseModel){
+        super.init(nibName: nil, bundle: nil)
+        
+        ExerciseData = [exercise]
+        // print(ExerciseData)
+    }
     
-    private let btnBackGroundView = CustomeButtonBackGround(backgroundColor: ColorGuide.secondary)
-    
-    private let btnBackGroundLabel = CustomLabel(labelType: .text1,
-                                                     textColor: .label,
-                                                     textAlignment: .left)
-    
-    private let startWorkoutButton = CustomButton(buttonType: .primary,
-                                                title: "Start Workout",
-                                                fontsize: .med)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        view.addSubview(exerciseImageView)
-        view.addSubview(exerciseCategoryLabel)
-        view.addSubview(exerciseNameLabel)
-        view.addSubview(calorieLabel)
-        view.addSubview(timeLabel)
-        view.addSubview(horizontalLine)
-        view.addSubview(tragetMusclesHeaderLabel)
-        view.addSubview(tragetMusclesCollectionView)
-        view.addSubview(descriptionHeaderLabel)
-        view.addSubview(descriptionLabel)
-        view.addSubview(exerciseHeaderLabel)
-        view.addSubview(btnBackGroundView)
-        view.addSubview(btnBackGroundLabel)
-        view.addSubview(startWorkoutButton)
-        //title = "Dats"
-
-        setUpCllectionView()
+        addSubviews()
         setUpConstraints()
+        setUpCllectionView()
         setUpValues()
-        
-        //addFavariouteButton.addTarget(self, action: #selector(didTapAddFavarioute), for: .touchUpInside)
     }
     
-    //  MARK: - Setup UI Constraints
+    //  MARK: - Add Subviews
+    private func addSubviews(){
+        view.addSubview(spinner)
+        view.addSubview(exerciseImageView)
+        view.addSubview(categoryLabel)
+        view.addSubview(difficultyLevelLabel)
+        view.addSubview(exerciseNameLabel)
+        view.addSubview(equipmentLabel)
+        view.addSubview(burnedCaloriesLabel)
+        view.addSubview(durationLabel)
+        view.addSubview(horizontalLine)
+        view.addSubview(targetMusclesHeaderLabel)
+        view.addSubview(targetMusclesCollectionView)
+        view.addSubview(contextHeaderLabel)
+        view.addSubview(contextLabel)
+        view.addSubview(descriptionHeaderLabel)
+        view.addSubview(descriptionLabel)
+    }
+    
+    //  MARK: - UI Setup Constraints
     private func setUpConstraints() {
         
         NSLayoutConstraint.activate([
-            exerciseImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            spinner.widthAnchor.constraint(equalToConstant: 100),
+            spinner.heightAnchor.constraint(equalToConstant: 100),
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            exerciseImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             exerciseImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             exerciseImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            exerciseImageView.heightAnchor.constraint(equalToConstant: 320),
+            exerciseImageView.heightAnchor.constraint(equalToConstant: 322),
             
-            exerciseCategoryLabel.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 15),
-            exerciseCategoryLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            exerciseCategoryLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            exerciseCategoryLabel.heightAnchor.constraint(equalToConstant: 25),
+            categoryLabel.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 5),
+            categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             
-            exerciseNameLabel.topAnchor.constraint(equalTo: exerciseCategoryLabel.bottomAnchor, constant: 2),
-            exerciseNameLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            exerciseNameLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            exerciseNameLabel.heightAnchor.constraint(equalToConstant: 28),
+            difficultyLevelLabel.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 5),
+            difficultyLevelLabel.leftAnchor.constraint(equalTo: categoryLabel.rightAnchor, constant: 5),
+            difficultyLevelLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            calorieLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 10),
-            calorieLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            calorieLabel.heightAnchor.constraint(equalToConstant: 25),
+            exerciseNameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
+            exerciseNameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             
-            timeLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 10),
-            timeLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            timeLabel.heightAnchor.constraint(equalToConstant: 25),
+            equipmentLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
+            equipmentLabel.leftAnchor.constraint(equalTo: exerciseNameLabel.rightAnchor, constant: 5),
+            equipmentLabel.bottomAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor),
             
-            horizontalLine.topAnchor.constraint(equalTo: calorieLabel.bottomAnchor, constant: 5),
-            horizontalLine.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            horizontalLine.widthAnchor.constraint(equalToConstant: view.bounds.width - 30),
+            burnedCaloriesLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 7),
+            burnedCaloriesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            
+            durationLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 7),
+            durationLabel.leftAnchor.constraint(equalTo: burnedCaloriesLabel.rightAnchor, constant: 5),
+            durationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
+            
+            horizontalLine.topAnchor.constraint(equalTo: burnedCaloriesLabel.bottomAnchor, constant: 7),
+            horizontalLine.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            horizontalLine.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             horizontalLine.heightAnchor.constraint(equalToConstant: 1),
             
-            tragetMusclesHeaderLabel.topAnchor.constraint(equalTo: horizontalLine.bottomAnchor, constant: 10),
-            tragetMusclesHeaderLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            tragetMusclesHeaderLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            tragetMusclesHeaderLabel.heightAnchor.constraint(equalToConstant: 25),
+            targetMusclesHeaderLabel.topAnchor.constraint(equalTo: horizontalLine.bottomAnchor, constant: 10),
+            targetMusclesHeaderLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            targetMusclesHeaderLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            tragetMusclesCollectionView.topAnchor.constraint(equalTo: tragetMusclesHeaderLabel.bottomAnchor, constant: 10),
-            tragetMusclesCollectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            tragetMusclesCollectionView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            tragetMusclesCollectionView.heightAnchor.constraint(equalToConstant: 125),
+            targetMusclesCollectionView.topAnchor.constraint(equalTo: targetMusclesHeaderLabel.bottomAnchor, constant: 5),
+            targetMusclesCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            targetMusclesCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
+            targetMusclesCollectionView.heightAnchor.constraint(equalToConstant: 130),
             
-            descriptionHeaderLabel.topAnchor.constraint(equalTo: tragetMusclesCollectionView.bottomAnchor, constant: 10),
-            descriptionHeaderLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            descriptionHeaderLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            descriptionHeaderLabel.heightAnchor.constraint(equalToConstant: 25),
+            contextHeaderLabel.topAnchor.constraint(equalTo: targetMusclesCollectionView.bottomAnchor, constant: 3),
+            contextHeaderLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            contextHeaderLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            descriptionLabel.topAnchor.constraint(equalTo: descriptionHeaderLabel.bottomAnchor, constant: 5),
-            descriptionLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            descriptionLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            contextLabel.topAnchor.constraint(equalTo: contextHeaderLabel.bottomAnchor, constant: 2),
+            contextLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            contextLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            exerciseHeaderLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
-            exerciseHeaderLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            exerciseHeaderLabel.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            exerciseHeaderLabel.heightAnchor.constraint(equalToConstant: 25),
+            descriptionHeaderLabel.topAnchor.constraint(equalTo: contextLabel.bottomAnchor, constant: 5),
+            descriptionHeaderLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            descriptionHeaderLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            btnBackGroundView.topAnchor.constraint(equalTo: exerciseHeaderLabel.bottomAnchor, constant: 10),
-            btnBackGroundView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10),
-            btnBackGroundView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10),
-            btnBackGroundView.heightAnchor.constraint(equalToConstant: 56),
-            
-            btnBackGroundLabel.centerYAnchor.constraint(equalTo: btnBackGroundView.centerYAnchor),
-            btnBackGroundLabel.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor, constant: 15),
-            
-            startWorkoutButton.centerYAnchor.constraint(equalTo: btnBackGroundView.centerYAnchor),
-            startWorkoutButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 135),
-            startWorkoutButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -17),
-            startWorkoutButton.heightAnchor.constraint(equalToConstant: 42),
+            descriptionLabel.topAnchor.constraint(equalTo: descriptionHeaderLabel.bottomAnchor, constant: 2),
+            descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
+            descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
+            descriptionLabel.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
         ])
         
-//                btnBackGroundLabel.backgroundColor = .blue
-        //        exerciseCategoryLabel.backgroundColor = .blue
     }
     
+    //  MARK: - Setup CllectionView
     private func setUpCllectionView(){
-        tragetMusclesCollectionView.delegate = self
-        tragetMusclesCollectionView.dataSource = self
-        }
+        targetMusclesCollectionView.delegate = self
+        targetMusclesCollectionView.dataSource = self
+    }
     
     //  MARK: - Setup Values
     private func setUpValues() {
         
-        exerciseImageView.image = UIImage(named: "E1")
-        exerciseCategoryLabel.text = "Warm Up"
-        exerciseNameLabel.text = "Beginner Crunchers Jacks"
-        self.calorieLabel.addLeading(image: UIImage(systemName: "flame")?.withTintColor(.red) ?? UIImage(),
-                                     text: "  \("320") KCal")
-        self.timeLabel.addLeading(image: UIImage(systemName: "clock")?.withTintColor(.systemGreen) ?? UIImage(),
-                                  text: "  \("10") min")
-        self.tragetMusclesHeaderLabel.text = "Traget Muscles"
-        self.descriptionHeaderLabel.text = "Description"
-        self.descriptionLabel.text = "10 min, 2 Sets, 30 sec rest between sets."
-        self.exerciseHeaderLabel.text = "Exercise"
-        self.btnBackGroundLabel.text = "Free Plan"
+        if let exercise = ExerciseData.first {
+            exerciseImageView.image = UIImage(named: exercise.media.image)
+            categoryLabel.text = exercise.category
+            switch exercise.difficultyLevel {
+            case 1:
+                difficultyLevelLabel.text = "⚡️"
+            case 2:
+                difficultyLevelLabel.text = "⚡️⚡️"
+            case 3:
+                difficultyLevelLabel.text = "⚡️⚡️⚡️"
+            default:
+                difficultyLevelLabel.text = ""
+            }
+            exerciseNameLabel.text = exercise.name
+            equipmentLabel.text = "(\(exercise.equipment))"
+            burnedCaloriesLabel.addLeading(image: UIImage(systemName: "flame")?.withTintColor(.red) ?? UIImage(),
+                                           text: "  \(exercise.burnedCalories) KCal")
+            durationLabel.addLeading(image: UIImage(systemName: "clock")?.withTintColor(.systemGreen) ?? UIImage(),
+                                     text: "  \(exercise.context.duration / 60) min")
+            targetMusclesHeaderLabel.text = "Traget Muscles"
+            contextHeaderLabel.text = "Context"
+            contextLabel.text = "\(exercise.context.sets) Sets, \(exercise.context.reps) Reps & \((exercise.context.rest ?? 60) / 60) Min rest between sets."
+            descriptionHeaderLabel.text = "Description"
+            descriptionLabel.text = exercise.description
+        }
         
     }
     
 }
+
 
 //MARK: - Collection View Section
 extension ExerciseDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        if let exercise = ExerciseData.first {
+            return exercise.targetMuscle.count
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15.0 // verticalSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 15.0 // horizontalSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TragetMusclesCollectionViewCell.cellIdentifier,
+            withReuseIdentifier: TargetMusclesCollectionViewCell.cellIdentifier,
             for: indexPath
-        ) as? TragetMusclesCollectionViewCell else {
+        ) as? TargetMusclesCollectionViewCell else {
             fatalError("Unsupported Cell")
         }
-        cell.setUpValues(title: "Key", value: "Value")
+        if let exercise = ExerciseData.first {
+            cell.setUpValues(image: exercise.targetMuscle[indexPath.row])
+            return cell
+        }
+        cell.setUpValues(image: "")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let bounds = UIScreen.main.bounds
-        let width = (bounds.width - 60) / 3
+        let width = (bounds.width - 50) / 3
         return CGSize(width: width,
-                      height: width * 1.1)
+                      height: width * 1.0)
     }
     
 }
-
