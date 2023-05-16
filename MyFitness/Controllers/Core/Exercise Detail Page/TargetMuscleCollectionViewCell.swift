@@ -2,22 +2,22 @@
 //  UICollectionViewCell.swift
 //  MyFitness
 //
-//  Created by Sachin on 5/7/23.
+//  Created by Sachin on 5/8/23.
 //
 
 import UIKit
 import QuartzCore
 
-class TargetMusclesCollectionViewCell: UICollectionViewCell {
+class TargetMuscleCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Variables
-    static let cellIdentifier = "TargetMusclesCollectionViewCell"
+    static let cellIdentifier = "TargetMuscleCollectionViewCell"
     
-    //MARK: - UI Components   
+    //MARK: - UI Components
     private let musclesImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
-                                                    imageType: .collection,
-                                                    imageLayout: .light)
-       
+                                                   imageType: .collection,
+                                                   imageLayout: .light)
+    
     //  MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,7 +66,7 @@ class TargetMusclesCollectionViewCell: UICollectionViewCell {
     
     //  MARK: - Setup UI Constraints
     private func setUpConstraints(){
-       
+        
         NSLayoutConstraint.activate([
             musclesImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             musclesImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),

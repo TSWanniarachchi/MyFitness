@@ -20,6 +20,18 @@ class ExerciseDetailViewController: UIViewController {
                                                     imageType: .page,
                                                     imageLayout: .dark)
     
+    private let backButton = CustomImageButton(image: UIImage(systemName: "heart.fill")!,
+                                               pointSize: 22,
+                                               cornerRadius: 18,
+                                               tintColor: .secondarySystemBackground,
+                                               backgroundColor: .secondarySystemBackground)
+    
+    private let addCustomSheduleButton = CustomImageButton(image: UIImage(systemName: "heart.fill")!,
+                                                           pointSize: 22,
+                                                           cornerRadius: 18,
+                                                           tintColor: ColorGuide.primary,
+                                                           backgroundColor: .secondarySystemBackground)
+    
     private let categoryLabel = CustomLabel(labelType: .header3,
                                             textColor: ColorGuide.primary,
                                             textAlignment: .left)
@@ -56,8 +68,8 @@ class ExerciseDetailViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(TargetMusclesCollectionViewCell.self,
-                                forCellWithReuseIdentifier: TargetMusclesCollectionViewCell.cellIdentifier)
+        collectionView.register(TargetMuscleCollectionViewCell.self,
+                                forCellWithReuseIdentifier: TargetMuscleCollectionViewCell.cellIdentifier)
         return collectionView
     }()
     
@@ -104,6 +116,8 @@ class ExerciseDetailViewController: UIViewController {
     private func addSubviews(){
         view.addSubview(spinner)
         view.addSubview(exerciseImageView)
+        view.addSubview(backButton)
+        view.addSubview(addCustomSheduleButton)
         view.addSubview(categoryLabel)
         view.addSubview(difficultyLevelLabel)
         view.addSubview(exerciseNameLabel)
@@ -131,7 +145,17 @@ class ExerciseDetailViewController: UIViewController {
             exerciseImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             exerciseImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             exerciseImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            exerciseImageView.heightAnchor.constraint(equalToConstant: 322),
+            exerciseImageView.heightAnchor.constraint(equalToConstant: 320),
+            
+            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
+            backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 3),
+            backButton.heightAnchor.constraint(equalToConstant: 35),
+            backButton.widthAnchor.constraint(equalToConstant: 80),
+            
+            addCustomSheduleButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            addCustomSheduleButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            addCustomSheduleButton.heightAnchor.constraint(equalToConstant: 40),
+            addCustomSheduleButton.widthAnchor.constraint(equalToConstant: 40),
             
             categoryLabel.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 5),
             categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
@@ -248,9 +272,9 @@ extension ExerciseDetailViewController: UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TargetMusclesCollectionViewCell.cellIdentifier,
+            withReuseIdentifier: TargetMuscleCollectionViewCell.cellIdentifier,
             for: indexPath
-        ) as? TargetMusclesCollectionViewCell else {
+        ) as? TargetMuscleCollectionViewCell else {
             fatalError("Unsupported Cell")
         }
         if let exercise = ExerciseData.first {
