@@ -99,7 +99,7 @@ class CustomScheduleExerciseTableViewCell: UITableViewCell {
         ]
         let attributedText = NSMutableAttributedString()
         attributedText.append(NSAttributedString(string: customScheduleExercise.name, attributes: exerciseNameAttributes))
-        attributedText.append(NSAttributedString(string: "(\(customScheduleExercise.equipment))", attributes: equipmentAttributes))
+        attributedText.append(NSAttributedString(string: " (\(customScheduleExercise.equipment))", attributes: equipmentAttributes))
         exerciseNameLabel.attributedText = attributedText
         categoryLabel.text = customScheduleExercise.category
         contextLabel.text = "\(customScheduleExercise.context.sets) Sets, \(customScheduleExercise.context.reps) Reps"
