@@ -11,6 +11,8 @@ class ExerciseDetailViewController: UIViewController {
     
     //MARK: - Variables
     var ExerciseData = [ExerciseModel]()
+    var ResponseData = [ResponseModel]()
+    var ExerciseId = ""
     
     //MARK: - UI Components
     private let spinner = CustomSpinner(size: .med,
@@ -110,6 +112,8 @@ class ExerciseDetailViewController: UIViewController {
         setUpConstraints()
         setUpCllectionView()
         setUpValues()
+        
+        addCustomSheduleButton.addTarget(self, action: #selector(didTapAddCustomSheduleButton), for: .touchUpInside)
     }
     
     //  MARK: - Add Subviews
@@ -145,14 +149,14 @@ class ExerciseDetailViewController: UIViewController {
             exerciseImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             exerciseImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             exerciseImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            exerciseImageView.heightAnchor.constraint(equalToConstant: 320),
+            exerciseImageView.heightAnchor.constraint(equalToConstant: 250),
             
             backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
             backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 3),
             backButton.heightAnchor.constraint(equalToConstant: 35),
             backButton.widthAnchor.constraint(equalToConstant: 80),
             
-            addCustomSheduleButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            addCustomSheduleButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: -10),
             addCustomSheduleButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
             addCustomSheduleButton.heightAnchor.constraint(equalToConstant: 40),
             addCustomSheduleButton.widthAnchor.constraint(equalToConstant: 40),
@@ -222,6 +226,7 @@ class ExerciseDetailViewController: UIViewController {
     private func setUpValues() {
         
         if let exercise = ExerciseData.first {
+            ExerciseId = exercise.id
             exerciseImageView.image = UIImage(named: exercise.media.image)
             categoryLabel.text = exercise.category
             switch exercise.difficultyLevel {
@@ -247,6 +252,73 @@ class ExerciseDetailViewController: UIViewController {
             descriptionLabel.text = exercise.description
         }
         
+    }
+    
+    // MARK: - Selectors
+    @objc private func didTapAddCustomSheduleButton(){
+//        print("DEBUG PRINT:", "didTapAddCustomSheduleButton")
+        
+        insertCustomScheduleExercisesData(userId: "sachin", exerciseId: ExerciseId)
+    }
+    
+    // Insert Data API Call
+    private func insertCustomScheduleExercisesData(userId: String, exerciseId: String) {
+        
+        // Create API request
+        let request = Request(endpoint: .customSchedules)
+        //        print(request.url)
+        
+        // Create API request body
+        let requestBody: [String: AnyHashable] = [
+            "userId": userId,
+            "exerciseId": exerciseId
+        ]
+        
+        // Call API request & get response
+        APICaller.shared.insertCustomSchedules(URL: request.url, requestBody: requestBody) {
+            result in
+            
+            DispatchQueue.main.async {
+                
+                switch result {
+                case .success(let model):
+                    
+                    self.ResponseData = model
+                    
+                    if(self.ResponseData[0].success == true){
+                        let alert = UIAlertController(title: "Alert",
+                                                      message: String(describing: self.ResponseData[0].message),
+                                                      preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss",
+                                                      style: .default,
+                                                      handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    else{
+                        let alert = UIAlertController(title: "Error",
+                                                      message: String(describing: self.ResponseData[0].message),
+                                                      preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss",
+                                                      style: .default,
+                                                      handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                case .failure(let error):
+                    
+                    let alert = UIAlertController(title: "Error",
+                                                  message: String(describing: error),
+                                                  preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss",
+                                                  style: .default,
+                                                  handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                } // end switch
+                
+            } // end DispatchQueue
+            
+        }// end APICaller
     }
     
 }
