@@ -315,7 +315,7 @@ class HomeViewController: UIViewController {
     //  MARK: - Visible Components
     private func visibleComponents(isVisible: Bool) {
         if isVisible {
-            DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 self.spinner.stopAnimating()
                 self.exerciseCollectionView.isHidden = false
                 UIView.animate(withDuration: 0.4){
@@ -435,6 +435,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedExercise =  ExerciseData[indexPath.row]
+        
         let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
         detailVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(detailVC, animated: true)
