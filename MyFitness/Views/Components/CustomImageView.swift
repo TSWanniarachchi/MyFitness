@@ -12,6 +12,7 @@ class CustomImageView: UIImageView {
     enum ImageType {
         case background
         case page
+        case avatar
         case table
         case collection
     }
@@ -31,15 +32,20 @@ class CustomImageView: UIImageView {
             self.contentMode = .scaleAspectFill
         case .page:
             self.contentMode = .scaleToFill
+            self.layer.cornerRadius = 35
             self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        case .avatar:
+            self.contentMode = .scaleAspectFill
+            self.layer.cornerRadius = 35
         case .table:
             self.contentMode = .scaleToFill
             self.layer.borderWidth = 1.5
+            self.layer.cornerRadius = 15
             self.layer.borderColor = ColorGuide.primary.cgColor
         case .collection:
             self.contentMode = .scaleToFill
-            self.layer.borderWidth = 1.5
-            self.layer.borderColor = ColorGuide.primary.cgColor
+            self.layer.cornerRadius = 10
+            
         }
         
         if (imageLayout == .dark){
