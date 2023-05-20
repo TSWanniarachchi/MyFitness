@@ -66,7 +66,7 @@ class NotificationViewController: UIViewController {
         visibleComponents(isVisible: false)
         
         let keyAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 20, weight: .semibold),
+            .font: UIFont.systemFont(ofSize: 19, weight: .semibold),
             .foregroundColor: UIColor.systemOrange
         ]
         let valueAttributes: [NSAttributedString.Key: Any] = [
@@ -90,26 +90,24 @@ class NotificationViewController: UIViewController {
     
     private func visibleComponents(isVisible: Bool) {
         if isVisible {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 self.spinner.stopAnimating()
                 
-                UIView.animate(withDuration: 0.4) {
-                    self.notificationLabel1.isHidden = false
+                self.notificationLabel1.isHidden = false
+                self.notificationLabel2.isHidden = false
+                UIView.animate(withDuration: 0.4){
                     self.notificationLabel1.alpha = 1
-                    self.notificationLabel2.isHidden = false
                     self.notificationLabel2.alpha = 1
                 }
-            }
-        } else {
+            })
+        }
+        else {
             spinner.startAnimating()
             
-            UIView.animate(withDuration: 0.4) {
-                self.notificationLabel1.alpha = 0
-                self.notificationLabel2.alpha = 0
-            } completion: { _ in
-                self.notificationLabel1.isHidden = true
-                self.notificationLabel2.isHidden = true
-            }
+            self.notificationLabel1.isHidden = true
+            self.notificationLabel1.alpha = 0
+            self.notificationLabel2.isHidden = true
+            self.notificationLabel2.alpha = 0
         }
     }
     
