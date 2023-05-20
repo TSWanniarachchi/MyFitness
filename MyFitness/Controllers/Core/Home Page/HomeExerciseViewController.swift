@@ -41,9 +41,9 @@ class HomeViewController: UIViewController {
                                             textColor: .label,
                                             textAlignment: .center)
     
-    private let summaryChartLabel = CustomLabel(labelType: .card,
-                                                textColor: .label,
-                                                textAlignment: .center)
+    private let chartImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
+                                                 imageType: .table,
+                                                 imageLayout: .light)
     
     private let category1Button = CustomButton(buttonType: .primary,
                                                title: "Chest",
@@ -119,7 +119,7 @@ class HomeViewController: UIViewController {
             target: self,
             action: #selector(didTapNotification)
         )
-        notificationButton.tintColor = ColorGuide.primary
+        notificationButton.tintColor = UIColor.systemOrange
         navigationItem.rightBarButtonItem = notificationButton
         
         setupScrollView()
@@ -159,7 +159,7 @@ class HomeViewController: UIViewController {
         contentView.addSubview(stepLabel)
         contentView.addSubview(calorieBurnLabel)
         contentView.addSubview(progressLabel)
-        contentView.addSubview(summaryChartLabel)
+        contentView.addSubview(chartImageView)
         contentView.addSubview(category1Button)
         contentView.addSubview(category2Button)
         contentView.addSubview(category3Button)
@@ -206,12 +206,12 @@ class HomeViewController: UIViewController {
         progressLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
         progressLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
         
-        summaryChartLabel.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8).isActive = true
-        summaryChartLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
-        summaryChartLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
-        summaryChartLabel.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        chartImageView.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8).isActive = true
+        chartImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        chartImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
+        chartImageView.heightAnchor.constraint(equalToConstant: 0).isActive = true
         
-        sectionHeader1.topAnchor.constraint(equalTo: summaryChartLabel.bottomAnchor, constant: 10).isActive = true
+        sectionHeader1.topAnchor.constraint(equalTo: chartImageView.bottomAnchor, constant: 10).isActive = true
         sectionHeader1.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         sectionHeader1.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
         
@@ -266,20 +266,62 @@ class HomeViewController: UIViewController {
         userProfileImageView.image = UIImage(named: "avatar")
         welcomeLabel.text = "WELCOME BACK 👋"
         usernameLabel.text = "MICHALE BERNANDO"
-        stepLabel.text = "Steps 12"
-        calorieBurnLabel.text = "CAL 456"
-        progressLabel.text = "7/12"
-        summaryChartLabel.text = "Summary Bar Chart"
+        
+        let keyAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 11, weight: .regular),
+            .foregroundColor: UIColor.label
+        ]
+        let valueAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 21, weight: .semibold)
+        ]
+        
+        let attributedStepText = NSMutableAttributedString()
+        if let systemIcon = UIImage(systemName: "figure.walk")?.withTintColor(ColorGuide.primary) {
+            let attachment = NSTextAttachment()
+            attachment.image = systemIcon
+            
+            attachment.bounds = CGRect(x: 0, y: -2, width: 25, height: 25)
+            attributedStepText.append(NSAttributedString(attachment: attachment))
+        }
+        attributedStepText.append(NSAttributedString(string: "\n75\n", attributes: valueAttributes))
+        attributedStepText.append(NSAttributedString(string: "STEPS", attributes: keyAttributes))
+        stepLabel.attributedText = attributedStepText
+        
+        let attributedCalorieBurnText = NSMutableAttributedString()
+        if let systemIcon = UIImage(systemName: "flame")?.withTintColor(ColorGuide.primary) {
+            let attachment = NSTextAttachment()
+            attachment.image = systemIcon
+            
+            attachment.bounds = CGRect(x: 0, y: -2, width: 25, height: 25)
+            attributedCalorieBurnText.append(NSAttributedString(attachment: attachment))
+        }
+        attributedCalorieBurnText.append(NSAttributedString(string: "\n3874 KCAL\n", attributes: valueAttributes))
+        attributedCalorieBurnText.append(NSAttributedString(string: "CAL BURN", attributes: keyAttributes))
+        calorieBurnLabel.attributedText = attributedCalorieBurnText
+        
+        let attributedProgressText = NSMutableAttributedString()
+        if let systemIcon = UIImage(systemName: "clock.fill")?.withTintColor(ColorGuide.primary) {
+            let attachment = NSTextAttachment()
+            attachment.image = systemIcon
+            
+            attachment.bounds = CGRect(x: 0, y: -2, width: 25, height: 25)
+            attributedProgressText.append(NSAttributedString(attachment: attachment))
+        }
+        attributedProgressText.append(NSAttributedString(string: "\n3/10\n", attributes: valueAttributes))
+        attributedProgressText.append(NSAttributedString(string: "PROGRESS", attributes: keyAttributes))
+        progressLabel.attributedText = attributedProgressText
+        
+        chartImageView.image = UIImage(named: "chart_home")
         sectionHeader1.text = "Exercise List"
         sectionHeader2.text = "Home Workout Plans"
-                
+        
         visibleComponents(isVisible: false)
         fetchExerciseData(category: category1Button.title(for: .normal)!)
     }
     
     // Fetching Data from API Call
     private func fetchExerciseData(category: String) {
-
+        
         // Create API request
         let request = Request(endpoint: .exercises,
                               pathComponents: ["category", category])
@@ -290,13 +332,13 @@ class HomeViewController: UIViewController {
                 
                 switch result {
                 case .success(let model):
-
+                    
                     self.ExerciseData = model
                     self.exerciseCollectionView.reloadData()
                     self.visibleComponents(isVisible: true)
-
+                    
                 case .failure(_):
-
+                    
                     let alert = UIAlertController(title: "Error",
                                                   message: String(describing: "Error occurred while fetching exercises."),
                                                   preferredStyle: .alert)
@@ -306,7 +348,7 @@ class HomeViewController: UIViewController {
                     self.present(alert, animated: true, completion: nil)
                     
                 } // end switch
-
+                
             } // end DispatchQueue
         }// end APICaller
         
@@ -332,33 +374,37 @@ class HomeViewController: UIViewController {
     
     // MARK: - Selectors
     @objc private func didTapNotification(){
-        print("DEBUG PRINT:", "didTapNotification")
+        //        print("DEBUG PRINT:", "didTapNotification")
+        
+        let subVC = NotificationViewController()
+        subVC.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.pushViewController(subVC, animated: true)
     }
     
     @objc private func didTapCategory1Button(){
         activeButton(uiButton: category1Button)
-        print("DEBUG PRINT:", "didTapCategory1Button")
+        //        print("DEBUG PRINT:", "didTapCategory1Button")
         
         fetchExerciseData(category: category1Button.title(for: .normal)!)
     }
     
     @objc private func didTapCategory2Button() {
         activeButton(uiButton: category2Button)
-        print("DEBUG PRINT:", "didTapCategory2Button")
+        //        print("DEBUG PRINT:", "didTapCategory2Button")
         
         fetchExerciseData(category: category2Button.title(for: .normal)!)
     }
     
     @objc private func didTapCategory3Button() {
         activeButton(uiButton: category3Button)
-        print("DEBUG PRINT:", "didTapCategory3Button")
+        //        print("DEBUG PRINT:", "didTapCategory3Button")
         
         fetchExerciseData(category: category3Button.title(for: .normal)!)
     }
     
     @objc private func didTapCategory4Button() {
         activeButton(uiButton: category4Button)
-        print("DEBUG PRINT:", "didTapCategory4Button")
+        //        print("DEBUG PRINT:", "didTapCategory4Button")
         
         fetchExerciseData(category: category4Button.title(for: .normal)!)
     }
