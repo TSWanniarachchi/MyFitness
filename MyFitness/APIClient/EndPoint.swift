@@ -11,8 +11,8 @@ import Foundation
 @frozen enum Endpoint: String {
     /// Endpoint to get exercise info
     case exercises
-    /// Endpoint to get foods info
-    case foods
+    /// Endpoint to get custom-schedules info
+    case customSchedules = "custom-schedules"
     /// Endpoint to get favorites info
     case favorites
 }

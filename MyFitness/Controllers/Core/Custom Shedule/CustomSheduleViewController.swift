@@ -19,7 +19,7 @@ class CustomScheduleViewController: UIViewController {
     
     private let coverImageView = CustomImageView(image: UIImage(systemName: "questionmark")!,
                                                  imageType: .page,
-                                                 imageLayout: .dark)
+                                                 imageLayout: .light)
     
     private let customScheduleTableView: UITableView = {
         let tableView = UITableView()
@@ -34,6 +34,7 @@ class CustomScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        title = "My Custom Shedule"
         
         addSubviews()
         setUpConstraints()
@@ -57,12 +58,12 @@ class CustomScheduleViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            coverImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            coverImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             coverImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             coverImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            coverImageView.heightAnchor.constraint(equalToConstant: 120),
+            coverImageView.heightAnchor.constraint(equalToConstant: 0),
             
-            customScheduleTableView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 5),
+            customScheduleTableView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 0),
             customScheduleTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             customScheduleTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             customScheduleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -86,25 +87,25 @@ class CustomScheduleViewController: UIViewController {
     
     // Fetching Data from API Call
     private func fetchCustomScheduleExercisesData(userId: String) {
-
+        
         // Create API request
         let request = Request(endpoint: .customSchedules,
                               pathComponents: [userId])
-
+        
         // Call API request & get response
         APICaller.shared.getCustomSchedules(URL: request.url) { result in
             DispatchQueue.main.async {
                 
                 switch result {
                 case .success(let model):
-
+                    
                     self.CustomScheduleExerciseData = model
                     self.customScheduleTableView.reloadData()
                     
                     self.visibleComponents(isVisible: true)
-
+                    
                 case .failure(_):
-
+                    
                     let alert = UIAlertController(title: "Error",
                                                   message: String(describing: "Error occurred while fetching custom schedule exercises."),
                                                   preferredStyle: .alert)
@@ -114,7 +115,7 @@ class CustomScheduleViewController: UIViewController {
                     self.present(alert, animated: true, completion: nil)
                     
                 } // end switch
-
+                
             } // end DispatchQueue
         }// end APICaller
         
@@ -138,10 +139,10 @@ class CustomScheduleViewController: UIViewController {
                 case .success(let model):
                     
                     self.ResponseData = model
-
+                    
                     if(self.ResponseData[0].success == true){
                         let alert = UIAlertController(title: "Alert",
-                                                      message: "Exercise \(self.ResponseData[0].message)",
+                                                      message: self.ResponseData[0].message,
                                                       preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Dismiss",
                                                       style: .default,
@@ -150,7 +151,7 @@ class CustomScheduleViewController: UIViewController {
                     }
                     else{
                         let alert = UIAlertController(title: "Error",
-                                                      message: String(describing: self.ResponseData[0].message),
+                                                      message: self.ResponseData[0].message,
                                                       preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "Dismise",
                                                       style: UIAlertAction.Style.default,
@@ -226,16 +227,16 @@ extension CustomScheduleViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedExercise =  CustomScheduleExerciseData[indexPath.row]
-        
-        let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
-        detailVC.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(detailVC, animated: true)
+        //        let selectedExercise =  CustomScheduleExerciseData[indexPath.row]
+        //
+        //        let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
+        //        detailVC.navigationItem.largeTitleDisplayMode = .never
+        //        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .normal, title: "") {action, view, completion in
-
+            
             // API Call
             let selectedExercise =  self.CustomScheduleExerciseData[indexPath.row]
             self.deleteCustomScheduleExercisesData(userId: "sachin", exerciseId: selectedExercise.id)

@@ -10,7 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     //MARK: - Variables
-    var HomeWorkoutPlan = ["Stay in Shape", "Immunity Booster", "Bumbbell", "Band"]
+    
     var ExerciseData = [ExerciseModel]()
     
     //MARK: - UI Components
@@ -75,6 +75,8 @@ class HomeViewController: UIViewController {
                                 forCellWithReuseIdentifier: ExerciseListCollectionViewCell.cellIdentifier)
         return collectionView
     }()
+    
+    var HomeWorkoutPlan = ["Stay in Shape", "Immunity Booster", "Bumbbell", "Band"]
     
     private let sectionHeader2 = CustomLabel(labelType: .header3,
                                              textColor: .label,
@@ -209,7 +211,7 @@ class HomeViewController: UIViewController {
         chartImageView.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8).isActive = true
         chartImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         chartImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
-        chartImageView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        chartImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
         sectionHeader1.topAnchor.constraint(equalTo: chartImageView.bottomAnchor, constant: 10).isActive = true
         sectionHeader1.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true

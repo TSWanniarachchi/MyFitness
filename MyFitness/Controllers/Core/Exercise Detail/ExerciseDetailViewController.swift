@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
 
 class ExerciseDetailViewController: UIViewController {
     
@@ -13,6 +15,9 @@ class ExerciseDetailViewController: UIViewController {
     var ExerciseData = [ExerciseModel]()
     var ResponseData = [ResponseModel]()
     var ExerciseId = ""
+    
+    let avPlayerViewController = AVPlayerViewController()
+    var avPlayer:AVPlayer?
     
     //MARK: - UI Components
     private let spinner = CustomSpinner(size: .med,
@@ -28,7 +33,7 @@ class ExerciseDetailViewController: UIViewController {
                                                tintColor: .secondarySystemBackground,
                                                backgroundColor: .secondarySystemBackground)
     
-    private let addCustomSheduleButton = CustomImageButton(image: UIImage(systemName: "heart.fill")!,
+    private let addCustomSheduleButton = CustomImageButton(image: UIImage(systemName: "bookmark.fill")!,
                                                            pointSize: 22,
                                                            cornerRadius: 18,
                                                            tintColor: ColorGuide.primary,
@@ -50,9 +55,11 @@ class ExerciseDetailViewController: UIViewController {
                                              textColor: .secondaryLabel,
                                              textAlignment: .left)
     
-    private let burnedCaloriesLabel = CustomLabel(labelType: .text1,
-                                                  textColor: .label,
-                                                  textAlignment: .left)
+    private let videoPlayButton = CustomImageButton(image: UIImage(systemName: "play.fill")!,
+                                                    pointSize: 30,
+                                                    cornerRadius: 26,
+                                                    tintColor: ColorGuide.primary,
+                                                    backgroundColor: .secondarySystemBackground)
     
     private let durationLabel = CustomLabel(labelType: .text1,
                                             textColor: .label,
@@ -114,6 +121,11 @@ class ExerciseDetailViewController: UIViewController {
         setUpValues()
         
         addCustomSheduleButton.addTarget(self, action: #selector(didTapAddCustomSheduleButton), for: .touchUpInside)
+        videoPlayButton.addTarget(self, action: #selector(didTapPlayViedoButton), for: .touchUpInside)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     //  MARK: - Add Subviews
@@ -126,7 +138,7 @@ class ExerciseDetailViewController: UIViewController {
         view.addSubview(difficultyLevelLabel)
         view.addSubview(exerciseNameLabel)
         view.addSubview(equipmentLabel)
-        view.addSubview(burnedCaloriesLabel)
+        view.addSubview(videoPlayButton)
         view.addSubview(durationLabel)
         view.addSubview(horizontalLine)
         view.addSubview(targetMusclesHeaderLabel)
@@ -149,24 +161,25 @@ class ExerciseDetailViewController: UIViewController {
             exerciseImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             exerciseImageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             exerciseImageView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            exerciseImageView.heightAnchor.constraint(equalToConstant: 250),
+            exerciseImageView.heightAnchor.constraint(equalToConstant: 320),
             
             backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
             backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 3),
             backButton.heightAnchor.constraint(equalToConstant: 35),
             backButton.widthAnchor.constraint(equalToConstant: 80),
             
-            addCustomSheduleButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: -10),
-            addCustomSheduleButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            addCustomSheduleButton.heightAnchor.constraint(equalToConstant: 40),
+            addCustomSheduleButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
+            addCustomSheduleButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            addCustomSheduleButton.heightAnchor.constraint(equalToConstant: 45),
             addCustomSheduleButton.widthAnchor.constraint(equalToConstant: 40),
             
             categoryLabel.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 5),
             categoryLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             
-            difficultyLevelLabel.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 5),
-            difficultyLevelLabel.leftAnchor.constraint(equalTo: categoryLabel.rightAnchor, constant: 5),
-            difficultyLevelLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
+            videoPlayButton.topAnchor.constraint(equalTo: exerciseImageView.bottomAnchor, constant: 10),
+            videoPlayButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            videoPlayButton.heightAnchor.constraint(equalToConstant: 52),
+            videoPlayButton.widthAnchor.constraint(equalToConstant: 52),
             
             exerciseNameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 4),
             exerciseNameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
@@ -175,14 +188,14 @@ class ExerciseDetailViewController: UIViewController {
             equipmentLabel.leftAnchor.constraint(equalTo: exerciseNameLabel.rightAnchor, constant: 5),
             equipmentLabel.bottomAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor),
             
-            burnedCaloriesLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 7),
-            burnedCaloriesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
-            
             durationLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 7),
-            durationLabel.leftAnchor.constraint(equalTo: burnedCaloriesLabel.rightAnchor, constant: 5),
-            durationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
+            durationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             
-            horizontalLine.topAnchor.constraint(equalTo: burnedCaloriesLabel.bottomAnchor, constant: 7),
+            difficultyLevelLabel.topAnchor.constraint(equalTo: exerciseNameLabel.bottomAnchor, constant: 7),
+            difficultyLevelLabel.leftAnchor.constraint(equalTo: durationLabel.rightAnchor, constant: 5),
+            difficultyLevelLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
+            
+            horizontalLine.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 7),
             horizontalLine.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             horizontalLine.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             horizontalLine.heightAnchor.constraint(equalToConstant: 1),
@@ -241,8 +254,6 @@ class ExerciseDetailViewController: UIViewController {
             }
             exerciseNameLabel.text = exercise.name
             equipmentLabel.text = "(\(exercise.equipment))"
-            burnedCaloriesLabel.addLeading(image: UIImage(systemName: "flame")?.withTintColor(.red) ?? UIImage(),
-                                           text: "  \(exercise.burnedCalories) KCal")
             durationLabel.addLeading(image: UIImage(systemName: "clock")?.withTintColor(.systemGreen) ?? UIImage(),
                                      text: "  \(exercise.context.duration / 60) min")
             targetMusclesHeaderLabel.text = "Traget Muscles"
@@ -250,13 +261,30 @@ class ExerciseDetailViewController: UIViewController {
             contextLabel.text = "\(exercise.context.sets) Sets, \(exercise.context.reps) Reps & \((exercise.context.rest ?? 60) / 60) Min rest between sets."
             descriptionHeaderLabel.text = "Description"
             descriptionLabel.text = exercise.description
+            
+            // Video player
+            let urlPathString:String? = Bundle.main.path(forResource: exercise.media.video, ofType: "mp4")
+            if let urlPath = urlPathString {
+                let videoUrl = NSURL(fileURLWithPath: urlPath)
+                
+                self.avPlayer = AVPlayer(url: videoUrl as URL)
+                self.avPlayerViewController.player = self.avPlayer
+            }
         }
         
     }
     
     // MARK: - Selectors
+    @objc private func didTapPlayViedoButton(){
+        //        print("DEBUG PRINT:", "didTapPlayViedoButton")
+        
+        self.present(self.avPlayerViewController, animated: true) {
+            self.avPlayerViewController.player?.play()
+        }
+    }
+    
     @objc private func didTapAddCustomSheduleButton(){
-//        print("DEBUG PRINT:", "didTapAddCustomSheduleButton")
+        //        print("DEBUG PRINT:", "didTapAddCustomSheduleButton")
         
         insertCustomScheduleExercisesData(userId: "sachin", exerciseId: ExerciseId)
     }

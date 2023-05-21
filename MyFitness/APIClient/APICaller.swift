@@ -44,6 +44,90 @@ final class APICaller {
         
     }
     
+    // MARK: - Custom Schedules
+    public func insertCustomSchedules(URL url: String, requestBody: [String: AnyHashable], completion: @escaping (Result<[ResponseModel], Error>) -> Void){
+        
+        createRequest(with: URL(string: url), type: .POST, body: requestBody) {
+            request in
+            
+            let task = URLSession.shared.dataTask(with: request) {
+                data, response, error in
+
+                guard let data = data, error == nil else{
+                    completion(.failure(error ?? APIError.failedToGetData))
+                    return
+                }
+
+                // Decode response
+                do{
+                    let result = try JSONDecoder().decode([ResponseModel].self, from: data)
+                    completion(.success(result))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            
+            }
+            task.resume()
+        }
+
+    }
+    
+    public func getCustomSchedules(URL url: String, completion: @escaping (Result<[ExerciseModel], Error>) -> Void) {
+        
+        createRequest(with: URL(string: url), type: .GET) {
+            request in
+            
+            let task = URLSession.shared.dataTask(with: request) {
+                data, response, error in
+                
+                guard let data = data, error == nil else{
+                    completion(.failure(error ?? APIError.failedToGetData))
+                    return
+                }
+                
+                // Decode response
+                do{
+                    let result = try JSONDecoder().decode([ExerciseModel].self, from: data)
+                    completion(.success(result))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+        
+    }
+    
+    public func deleteCustomSchedules(URL url: String, completion: @escaping (Result<[ResponseModel], Error>) -> Void) {
+        
+        createRequest(with: URL(string: url), type: .DELETE) {
+            request in
+            
+            let task = URLSession.shared.dataTask(with: request) {
+                data, response, error in
+                
+                guard let data = data, error == nil else{
+                    completion(.failure(error ?? APIError.failedToGetData))
+                    return
+                }
+                
+                // Decode response
+                do{
+                    let result = try JSONDecoder().decode([ResponseModel].self, from: data)
+                    completion(.success(result))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+        
+    }
+
+    
     
     
     // MARK: - Create HTTP Request

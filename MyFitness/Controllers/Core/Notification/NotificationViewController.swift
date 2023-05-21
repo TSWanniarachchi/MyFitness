@@ -51,7 +51,7 @@ class NotificationViewController: UIViewController {
             notificationLabel1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             notificationLabel1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             notificationLabel1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
-            notificationLabel1.heightAnchor.constraint(equalToConstant: 60),
+            notificationLabel1.heightAnchor.constraint(equalToConstant: 70),
             
             notificationLabel2.topAnchor.constraint(equalTo: notificationLabel1.bottomAnchor, constant: 10),
             notificationLabel2.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),

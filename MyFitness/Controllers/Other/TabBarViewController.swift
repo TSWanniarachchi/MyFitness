@@ -13,7 +13,7 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         
         let vc1 = HomeViewController()
-        let vc2 = CustomScheduleViewController()
+        let vc2 = WorkoutPlanViewController()
         let vc3 = CustomScheduleViewController()
         
         vc1.navigationItem.largeTitleDisplayMode = .automatic
@@ -27,11 +27,11 @@ class TabBarViewController: UITabBarController {
         nav1.tabBarItem = UITabBarItem(title: "Excercises",
                                        image: UIImage(systemName: "dumbbell.fill"),
                                        tag: 1)
-        nav2.tabBarItem = UITabBarItem(title: "Workouts",
+        nav2.tabBarItem = UITabBarItem(title: "Workouts Plan",
                                        image: UIImage(systemName: "list.bullet.clipboard.fill"),
                                        tag: 2)
-        nav3.tabBarItem = UITabBarItem(title: "Custom",
-                                       image: UIImage(systemName: "heart.circle.fill"),
+        nav3.tabBarItem = UITabBarItem(title: "Custom Schedule",
+                                       image: UIImage(systemName: "bookmark.fill"),
                                        tag: 3)
         
         self.tabBar.tintColor = ColorGuide.primary
