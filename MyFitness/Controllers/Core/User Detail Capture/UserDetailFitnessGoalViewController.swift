@@ -9,33 +9,30 @@ import UIKit
 
 class UserDetailFitnessGoalViewController: UIViewController {
     
-    //MARK: - Variables
-    var fitnessGoalList = ["Build Muscle", "Lose Weight", "Improve Endurance", "Maintain Fitness", "Gain Strength"]
-
     //MARK: - UI Components
     private let headerLabel = CustomLabel(labelType: .header1,
                                           textColor: .label,
                                           textAlignment: .center)
     
     private let descriptionLabel = CustomLabel(labelType: .paragraph1,
-                                                   textColor: .label,
-                                                   textAlignment: .center)
+                                               textColor: .label,
+                                               textAlignment: .center)
     
-    private let option1Button = CustomButton(buttonType: .secondary,
-                                          title: "💪 Build Muscle",
-                                          fontsize: .option)
+    private let buildMuscleOptionButton = CustomButton(buttonType: .secondary,
+                                                       title: "💪 Build Muscle",
+                                                       fontsize: .option)
     
-    private let option2Button = CustomButton(buttonType: .secondary,
-                                          title: "🏋️‍♀️ Lose Weight",
-                                          fontsize: .option)
+    private let loseWeightOptionButton = CustomButton(buttonType: .secondary,
+                                                      title: "🏋️‍♀️ Lose Weight",
+                                                      fontsize: .option)
     
-    private let option3Button = CustomButton(buttonType: .secondary,
-                                          title: "🏃‍♂️ Improve Endurance",
-                                          fontsize: .option)
+    private let improveEnduranceOptionButton = CustomButton(buttonType: .secondary,
+                                                            title: "🏃‍♂️ Improve Endurance",
+                                                            fontsize: .option)
     
-    private let option4Button = CustomButton(buttonType: .secondary,
-                                          title: "💥 Gain Strength",
-                                          fontsize: .option)
+    private let gainStrengthOptionButton = CustomButton(buttonType: .secondary,
+                                                        title: "💥 Gain Strength",
+                                                        fontsize: .option)
     
     private let nextButton = CustomButton(buttonType: .primary,
                                           title: "Next",
@@ -50,10 +47,10 @@ class UserDetailFitnessGoalViewController: UIViewController {
         setUpConstraints()
         setUpValues()
         
-        option1Button.addTarget(self, action: #selector(didTapoption1Button), for: .touchUpInside)
-        option2Button.addTarget(self, action: #selector(didTapoption2Button), for: .touchUpInside)
-        option3Button.addTarget(self, action: #selector(didTapoption3Button), for: .touchUpInside)
-        option4Button.addTarget(self, action: #selector(didTapoption4Button), for: .touchUpInside)
+        buildMuscleOptionButton.addTarget(self, action: #selector(didTapBuildMuscleOptionButton), for: .touchUpInside)
+        loseWeightOptionButton.addTarget(self, action: #selector(didTapLoseWeightOptionButton), for: .touchUpInside)
+        improveEnduranceOptionButton.addTarget(self, action: #selector(didTapImproveEnduranceOptionButton), for: .touchUpInside)
+        gainStrengthOptionButton.addTarget(self, action: #selector(didTapGainStrengthOptionButton), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
     }
     
@@ -61,10 +58,10 @@ class UserDetailFitnessGoalViewController: UIViewController {
     private func addSubviews(){
         view.addSubview(headerLabel)
         view.addSubview(descriptionLabel)
-        view.addSubview(option1Button)
-        view.addSubview(option2Button)
-        view.addSubview(option3Button)
-        view.addSubview(option4Button)
+        view.addSubview(buildMuscleOptionButton)
+        view.addSubview(loseWeightOptionButton)
+        view.addSubview(improveEnduranceOptionButton)
+        view.addSubview(gainStrengthOptionButton)
         view.addSubview(nextButton)
     }
     
@@ -72,36 +69,36 @@ class UserDetailFitnessGoalViewController: UIViewController {
     private func setUpConstraints() {
         
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 65),
             headerLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             headerLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
             descriptionLabel.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 25),
             descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            option1Button.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 45),
-            option1Button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            option1Button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            option1Button.heightAnchor.constraint(equalToConstant: 65),
+            buildMuscleOptionButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 45),
+            buildMuscleOptionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            buildMuscleOptionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            buildMuscleOptionButton.heightAnchor.constraint(equalToConstant: 65),
             
-            option2Button.topAnchor.constraint(equalTo: option1Button.bottomAnchor, constant: 10),
-            option2Button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            option2Button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            option2Button.heightAnchor.constraint(equalToConstant: 65),
+            loseWeightOptionButton.topAnchor.constraint(equalTo: buildMuscleOptionButton.bottomAnchor, constant: 10),
+            loseWeightOptionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            loseWeightOptionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            loseWeightOptionButton.heightAnchor.constraint(equalToConstant: 65),
             
-            option3Button.topAnchor.constraint(equalTo: option2Button.bottomAnchor, constant: 10),
-            option3Button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            option3Button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            option3Button.heightAnchor.constraint(equalToConstant: 65),
+            improveEnduranceOptionButton.topAnchor.constraint(equalTo: loseWeightOptionButton.bottomAnchor, constant: 10),
+            improveEnduranceOptionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            improveEnduranceOptionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            improveEnduranceOptionButton.heightAnchor.constraint(equalToConstant: 65),
             
-            option4Button.topAnchor.constraint(equalTo: option3Button.bottomAnchor, constant: 10),
-            option4Button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            option4Button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            option4Button.heightAnchor.constraint(equalToConstant: 65),
+            gainStrengthOptionButton.topAnchor.constraint(equalTo: improveEnduranceOptionButton.bottomAnchor, constant: 10),
+            gainStrengthOptionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
+            gainStrengthOptionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            gainStrengthOptionButton.heightAnchor.constraint(equalToConstant: 65),
             
             nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            nextButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20),
-            nextButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20),
+            nextButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10),
+            nextButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10),
             nextButton.heightAnchor.constraint(equalToConstant: 55),
         ])
         
@@ -109,49 +106,67 @@ class UserDetailFitnessGoalViewController: UIViewController {
     
     //  MARK: - Setup Values
     private func setUpValues() {
-        headerLabel.text = "What's Your goal?"
+        headerLabel.text = "What's Your Goal?"
         descriptionLabel.text = "Your coach will design your \nworkouts that best suit your \ngoal"
     }
     
     // MARK: - Selectors
-    @objc private func didTapoption1Button(){
-        print("DEBUG PRINT:", "didTapoption1Button")
+    @objc private func didTapBuildMuscleOptionButton(){
+        //        print("DEBUG PRINT:", "didTapBuildMuscleOptionButton")
         
-        selectedOption(uiButton: option1Button)
+        selectedOption(uiButton: buildMuscleOptionButton)
+        AuthManager.fitnessGoal = "Build Muscle"
     }
     
-    @objc private func didTapoption2Button(){
-        print("DEBUG PRINT:", "didTapoption2Button")
+    @objc private func didTapLoseWeightOptionButton(){
+        //        print("DEBUG PRINT:", "didTapLoseWeightOptionButton")
         
-        selectedOption(uiButton: option2Button)
+        selectedOption(uiButton: loseWeightOptionButton)
+        AuthManager.fitnessGoal = "Lose Weight"
     }
     
-    @objc private func didTapoption3Button(){
-        print("DEBUG PRINT:", "didTapoption3Button")
+    @objc private func didTapImproveEnduranceOptionButton(){
+        //        print("DEBUG PRINT:", "didTapImproveEnduranceOptionButton")
         
-        selectedOption(uiButton: option3Button)
+        selectedOption(uiButton: improveEnduranceOptionButton)
+        AuthManager.fitnessGoal = "Improve Endurance"
     }
     
-    @objc private func didTapoption4Button(){
-        print("DEBUG PRINT:", "didTapoption4Button")
+    @objc private func didTapGainStrengthOptionButton(){
+        //        print("DEBUG PRINT:", "didTapGainStrengthOptionButton")
         
-        selectedOption(uiButton: option4Button)
+        selectedOption(uiButton: gainStrengthOptionButton)
+        AuthManager.fitnessGoal = "Gain Strength"
     }
     
     @objc private func didTapNextButton(){
-        print("DEBUG PRINT:", "didTapNextButton")
+        //        print("DEBUG PRINT:", "didTapNextButton")
         
-        let vc = TabBarViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: false, completion: nil)
+        if !(AuthManager.fitnessGoal == "") {
+            let vc = UserDetailDifficultyLevelViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+            //        let vc = UserDetailDifficultyLevelViewController()
+            //        vc.modalPresentationStyle = .fullScreen
+            //        self.present(vc, animated: false, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Alert",
+                                          message: "Please select a fitness goal.",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss",
+                                          style: .default,
+                                          handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
     
     private func selectedOption(uiButton: UIButton) {
-        option1Button.backgroundColor = .tertiaryLabel
-        option2Button.backgroundColor = .tertiaryLabel
-        option3Button.backgroundColor = .tertiaryLabel
-        option4Button.backgroundColor = .tertiaryLabel
-  
+        buildMuscleOptionButton.backgroundColor = .tertiaryLabel
+        loseWeightOptionButton.backgroundColor = .tertiaryLabel
+        improveEnduranceOptionButton.backgroundColor = .tertiaryLabel
+        gainStrengthOptionButton.backgroundColor = .tertiaryLabel
+        
         uiButton.backgroundColor = ColorGuide.primary
     }
     

@@ -10,7 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     //MARK: - Variables
-    
+    var HomeWorkoutPlan = ["Stay in Shape", "Immunity Booster", "Bumbbell", "Band"]
     var ExerciseData = [ExerciseModel]()
     
     //MARK: - UI Components
@@ -75,8 +75,6 @@ class HomeViewController: UIViewController {
                                 forCellWithReuseIdentifier: ExerciseListCollectionViewCell.cellIdentifier)
         return collectionView
     }()
-    
-    var HomeWorkoutPlan = ["Stay in Shape", "Immunity Booster", "Bumbbell", "Band"]
     
     private let sectionHeader2 = CustomLabel(labelType: .header3,
                                              textColor: .label,

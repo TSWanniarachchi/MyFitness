@@ -10,7 +10,11 @@ import UIKit
 class UserDetailWeightViewController: UIViewController {
     
     //MARK: - Variables
-    var WeightList = ["77", "78", "79", "80", "81", "82", "83", "84", "85"]
+    var wholeWeightList = ["72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86"]
+    var fractionalWeightList = [".0", ".1", ".2", ".3", ".4", ".5", ".6", ".7", ".8", ".9"]
+    var defaultSelectedRow = 4
+    var wholeWeightSelectedOption = "0"
+    var fractionalWeightSelectedOption = "0"
     
     //MARK: - UI Components
     private let headerLabel = CustomLabel(labelType: .header1,
@@ -21,12 +25,16 @@ class UserDetailWeightViewController: UIViewController {
                                                    textColor: .label,
                                                    textAlignment: .center)
     
+    private let weightValueLabel = CustomLabel(labelType: .header2,
+                                               textColor: .label,
+                                               textAlignment: .center)
+    
     private let weightPickerView = UIPickerView()
     
     private let nextButton = CustomButton(buttonType: .primary,
                                           title: "Next",
                                           fontsize: .big)
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +45,8 @@ class UserDetailWeightViewController: UIViewController {
         setUpPickerView()
         setUpValues()
         
-        weightPickerView.selectRow(4, inComponent: 0, animated: false)
+        weightPickerView.selectRow(defaultSelectedRow, inComponent: 0, animated: false)
+        weightPickerView.selectRow(defaultSelectedRow, inComponent: 1, animated: false)
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
     }
     
@@ -45,6 +54,7 @@ class UserDetailWeightViewController: UIViewController {
     private func addSubviews(){
         view.addSubview(headerLabel)
         view.addSubview(weightValueTypeLabel)
+        view.addSubview(weightValueLabel)
         view.addSubview(weightPickerView)
         view.addSubview(nextButton)
         
@@ -55,25 +65,28 @@ class UserDetailWeightViewController: UIViewController {
     private func setUpConstraints() {
         
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 65),
             headerLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             headerLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            weightValueTypeLabel.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 45),
+            weightValueTypeLabel.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 35),
             weightValueTypeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weightValueTypeLabel.widthAnchor.constraint(equalToConstant: 75),
             weightValueTypeLabel.heightAnchor.constraint(equalToConstant: 45),
             
-            weightPickerView.topAnchor.constraint(equalTo: weightValueTypeLabel.bottomAnchor, constant: 20),
+            weightValueLabel.topAnchor.constraint(equalTo: weightValueTypeLabel.bottomAnchor, constant: 20),
+            weightValueLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weightValueLabel.widthAnchor.constraint(equalToConstant: 100),
+            
+            weightPickerView.topAnchor.constraint(equalTo: weightValueLabel.bottomAnchor, constant: 1),
             weightPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weightPickerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            weightPickerView.heightAnchor.constraint(equalToConstant: 300),
+            weightPickerView.heightAnchor.constraint(equalToConstant: 325),
             
             nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            nextButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20),
-            nextButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20),
+            nextButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10),
+            nextButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10),
             nextButton.heightAnchor.constraint(equalToConstant: 55),
-            
         ])
         
     }
@@ -88,6 +101,10 @@ class UserDetailWeightViewController: UIViewController {
     private func setUpValues() {
         headerLabel.text = "What's Your Current \nWeight?"
         weightValueTypeLabel.text = "Kg"
+        wholeWeightSelectedOption = wholeWeightList[defaultSelectedRow]
+        fractionalWeightSelectedOption = fractionalWeightList[defaultSelectedRow]
+        AuthManager.weight = "\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption)"
+        weightValueLabel.text = "\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption) Kg"
     }
     
     // MARK: - Selectors
@@ -95,8 +112,11 @@ class UserDetailWeightViewController: UIViewController {
         //        print("DEBUG PRINT:", "didTapNextButton")
         
         let vc = UserDetailFitnessGoalViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: false, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+        //        let vc = UserDetailFitnessGoalViewController()
+        //        vc.modalPresentationStyle = .fullScreen
+        //        self.present(vc, animated: false, completion: nil)
     }
     
 }
@@ -105,16 +125,36 @@ class UserDetailWeightViewController: UIViewController {
 extension UserDetailWeightViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return WeightList.count
+        if component == 0 {
+            return wholeWeightList.count
+        }
+        else {
+            return fractionalWeightList.count
+        }
     }
-      
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let row = WeightList[row]
-        return row
+        if component == 0 {
+            return wholeWeightList[row]
+        }
+        else {
+            return fractionalWeightList[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 {
+            wholeWeightSelectedOption = wholeWeightList[row]
+        }else {
+            fractionalWeightSelectedOption = fractionalWeightList[row]
+        }
+        let selectedValue = "\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption)"
+        AuthManager.weight = selectedValue
+        weightValueLabel.text = "\(selectedValue) Kg"
     }
     
 }
