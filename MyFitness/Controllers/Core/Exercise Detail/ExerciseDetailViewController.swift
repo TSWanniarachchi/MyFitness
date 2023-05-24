@@ -168,7 +168,7 @@ class ExerciseDetailViewController: UIViewController {
             backButton.heightAnchor.constraint(equalToConstant: 35),
             backButton.widthAnchor.constraint(equalToConstant: 80),
             
-            addCustomSheduleButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
+            addCustomSheduleButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 75),
             addCustomSheduleButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
             addCustomSheduleButton.heightAnchor.constraint(equalToConstant: 45),
             addCustomSheduleButton.widthAnchor.constraint(equalToConstant: 40),

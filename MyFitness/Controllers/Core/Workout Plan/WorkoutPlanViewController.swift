@@ -98,7 +98,6 @@ class WorkoutPlanViewController: UIViewController {
             headerLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             headerLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             
-            
             heightLabel.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 5),
             heightLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             heightLabel.widthAnchor.constraint(equalToConstant: 110),
@@ -247,6 +246,8 @@ class WorkoutPlanViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
                 self.spinner.stopAnimating()
                 
+                self.headerLabel.isHidden = false
+                self.aboutLabel.isHidden = false
                 self.heightLabel.isHidden = false
                 self.weightLabel.isHidden = false
                 self.bmiLabel.isHidden = false
@@ -257,6 +258,8 @@ class WorkoutPlanViewController: UIViewController {
                 self.workoutPlanTableView.isHidden = false
                 
                 UIView.animate(withDuration: 0.4){
+                    self.headerLabel.alpha = 1
+                    self.aboutLabel.alpha = 1
                     self.heightLabel.alpha = 1
                     self.weightLabel.alpha = 1
                     self.bmiLabel.alpha = 1
@@ -271,6 +274,10 @@ class WorkoutPlanViewController: UIViewController {
         else {
             spinner.startAnimating()
             
+            self.headerLabel.isHidden = true
+            self.headerLabel.alpha = 0
+            self.aboutLabel.isHidden = true
+            self.aboutLabel.alpha = 0
             self.heightLabel.isHidden = true
             self.heightLabel.alpha = 0
             self.weightLabel.isHidden = true

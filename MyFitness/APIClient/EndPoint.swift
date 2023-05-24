@@ -13,6 +13,6 @@ import Foundation
     case exercises
     /// Endpoint to get custom-schedules info
     case customSchedules = "custom-schedules"
-    /// Endpoint to get favorites info
-    case favorites
+    /// Endpoint to get users info
+    case users
 }

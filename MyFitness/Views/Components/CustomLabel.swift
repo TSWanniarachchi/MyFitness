@@ -38,7 +38,7 @@ class CustomLabel: UILabel {
         
         switch labelType{
         case .header1:
-            self.font = .systemFont(ofSize: 30, weight: .bold)
+            self.font = .systemFont(ofSize: 31, weight: .bold)
         case .header2:
             self.font = .systemFont(ofSize: 25, weight: .bold)
         case .header3:

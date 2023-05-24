@@ -27,6 +27,8 @@
 		03B4961929B4599500389F5C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B4961829B4599500389F5C /* SceneDelegate.swift */; };
 		03B4962029B45A8F00389F5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03B4961F29B45A8F00389F5C /* Assets.xcassets */; };
 		03B4962329B45A8F00389F5C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03B4962129B45A8F00389F5C /* LaunchScreen.storyboard */; };
+		03BD65162A1D2ED300B14DA5 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BD65152A1D2ED300B14DA5 /* AuthManager.swift */; };
+		03BD65182A1E34E600B14DA5 /* UserDetailDifficultyLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BD65172A1E34E500B14DA5 /* UserDetailDifficultyLevelViewController.swift */; };
 		03CD5A4D2A19D38600769F1F /* UserDetailWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CD5A4C2A19D38500769F1F /* UserDetailWeightViewController.swift */; };
 		03CD5A4F2A19DD5200769F1F /* UserDetailFitnessGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CD5A4E2A19DD5200769F1F /* UserDetailFitnessGoalViewController.swift */; };
 		03CD5A512A19EDE500769F1F /* UserDetailGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CD5A502A19EDE500769F1F /* UserDetailGenderViewController.swift */; };
@@ -71,6 +73,8 @@
 		03B4961F29B45A8F00389F5C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03B4962229B45A8F00389F5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03B4962429B45A8F00389F5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03BD65152A1D2ED300B14DA5 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		03BD65172A1E34E500B14DA5 /* UserDetailDifficultyLevelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailDifficultyLevelViewController.swift; sourceTree = "<group>"; };
 		03CD5A4C2A19D38500769F1F /* UserDetailWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailWeightViewController.swift; sourceTree = "<group>"; };
 		03CD5A4E2A19DD5200769F1F /* UserDetailFitnessGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailFitnessGoalViewController.swift; sourceTree = "<group>"; };
 		03CD5A502A19EDE500769F1F /* UserDetailGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailGenderViewController.swift; sourceTree = "<group>"; };
@@ -139,7 +143,6 @@
 				03FA53382A18DD4D00FBEFDD /* Videos */,
 				03B4961F29B45A8F00389F5C /* Assets.xcassets */,
 				03038CEC29B48DD90073169A /* ColorGuide.swift */,
-				03038CF529B49A840073169A /* Extensions */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				03038CF429B499ED0073169A /* Manifest */,
 				03038CEB29B48D790073169A /* Resources */,
 				03038CF629B49B250073169A /* APIClient */,
+				03BD65142A1D2E8400B14DA5 /* Managers */,
 				03038CF329B499300073169A /* Models */,
 				03038CE529B487AE0073169A /* Views */,
 				03038CE029B47AEA0073169A /* Controllers */,
@@ -258,6 +262,15 @@
 				03B4962429B45A8F00389F5C /* Info.plist */,
 			);
 			path = MyFitness;
+			sourceTree = "<group>";
+		};
+		03BD65142A1D2E8400B14DA5 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				03038CF529B49A840073169A /* Extensions */,
+				03BD65152A1D2ED300B14DA5 /* AuthManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		03F007812A10BC1300EA1BD4 /* Home */ = {
@@ -314,6 +327,7 @@
 				03FA53402A190DA900FBEFDD /* UserDetailHeightViewController.swift */,
 				03CD5A4C2A19D38500769F1F /* UserDetailWeightViewController.swift */,
 				03CD5A4E2A19DD5200769F1F /* UserDetailFitnessGoalViewController.swift */,
+				03BD65172A1E34E500B14DA5 /* UserDetailDifficultyLevelViewController.swift */,
 			);
 			path = "User Detail Capture";
 			sourceTree = "<group>";
@@ -397,12 +411,14 @@
 				03D7138A2A0937EB00DA9764 /* ExerciseListCollectionViewCell.swift in Sources */,
 				03FA53412A190DAA00FBEFDD /* UserDetailHeightViewController.swift in Sources */,
 				03F0077E2A109E8B00EA1BD4 /* CustomImageButton.swift in Sources */,
+				03BD65182A1E34E600B14DA5 /* UserDetailDifficultyLevelViewController.swift in Sources */,
 				03DAC0BE2A0D143C00901BAD /* Request.swift in Sources */,
 				03EDAC052A065F8B007A2E7E /* HomeExerciseViewController.swift in Sources */,
 				03AC074E29B4B5E50042CD08 /* CustomLabel.swift in Sources */,
 				035BF62C2A15132000F9E553 /* WorkoutPlanViewController.swift in Sources */,
 				03038CE429B47B4F0073169A /* WelcomeViewController.swift in Sources */,
 				03FA53352A1834C100FBEFDD /* WorkoutPlanExerciseTableViewCell.swift in Sources */,
+				03BD65162A1D2ED300B14DA5 /* AuthManager.swift in Sources */,
 				03038CE829B4880C0073169A /* CustomButton.swift in Sources */,
 				0329B92029B79C4200F3BB30 /* CustomHorizontalBar.swift in Sources */,
 				03CD5A512A19EDE500769F1F /* UserDetailGenderViewController.swift in Sources */,
