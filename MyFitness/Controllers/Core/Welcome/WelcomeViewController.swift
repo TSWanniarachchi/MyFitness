@@ -18,8 +18,8 @@ class WelcomeViewController: UIViewController {
                                           textColor: ColorGuide.primary,
                                           textAlignment: .left)
     
-    private let infoLabel = CustomLabel(labelType: .paragraph2,
-                                        textColor: ColorGuide.secondary,
+    private let infoLabel = CustomLabel(labelType: .paragraph1,
+                                        textColor: .secondaryLabel,
                                         textAlignment: .left)
     
     private let getStartedButton = CustomButton(buttonType: .primary,
@@ -29,7 +29,6 @@ class WelcomeViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = ""
         view.backgroundColor = .systemBackground
         
         addSubviews()
@@ -87,9 +86,18 @@ class WelcomeViewController: UIViewController {
     @objc private func didTapGetStarted(){
         //        print("DEBUG PRINT:", "didTapGetStarted")
         
-        let vc = TabBarViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: false, completion: nil)
+        if (AuthManager.isSignIn) {
+            let vc = TabBarViewController()
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false, completion: nil)
+        } else {
+            let vc = UserDetailGenderViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+            //        let vc = UserDetailGenderViewController()
+            //        vc.modalPresentationStyle = .fullScreen
+            //        self.present(vc, animated: false, completion: nil)
+        }
     }
     
 }
