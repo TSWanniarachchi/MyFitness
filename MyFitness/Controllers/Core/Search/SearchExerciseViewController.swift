@@ -39,7 +39,7 @@ class SearchExerciseViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Search"
+        title = "Search Exercise"
         
         addSubviews()
         setUpConstraints()
@@ -63,7 +63,7 @@ class SearchExerciseViewController: UIViewController, UISearchBarDelegate {
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            searchExerciseTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            searchExerciseTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchExerciseTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             searchExerciseTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             searchExerciseTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -167,8 +167,12 @@ extension SearchExerciseViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedExercise =  searchExerciseData[indexPath.row]
-
+        let selectedExercise = searchExerciseData[indexPath.row]
+        
+        let backButton = UIBarButtonItem()
+        backButton.title = "Back"
+        navigationItem.backBarButtonItem = backButton
+        
         let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
         detailVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(detailVC, animated: true)
