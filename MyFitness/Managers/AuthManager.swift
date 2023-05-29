@@ -15,8 +15,10 @@ final class AuthManager {
     static var username = "sachin"
     static var fullName = "Michael Bernardo"
     static var gender = ""
-    static var height = "0.00"
-    static var weight = "0.00"
+    static var height = 0.00
+    static var weight = 0.00
     static var fitnessGoal = ""
+    static var burnedCal = 00
+    static var progressLevel = 0
     static var difficultyLevel = 0
 }

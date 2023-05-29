@@ -90,7 +90,7 @@ class HomeViewController: UIViewController {
                                 forCellWithReuseIdentifier: HomeWorkoutPlanCollectionViewCell.cellIdentifier)
         return collectionView
     }()
-    
+
     private let scrollViewLabel = CustomLabel(labelType: .text1,
                                               textColor: .systemBackground,
                                               textAlignment: .left)
@@ -111,16 +111,24 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
         navigationItem.largeTitleDisplayMode = .never
+        
         let notificationButton = UIBarButtonItem(
             image: UIImage(systemName: "bell"),
             style: .done,
             target: self,
             action: #selector(didTapNotification)
         )
+        let searchButton = UIBarButtonItem(
+            image: UIImage(systemName: "magnifyingglass"),
+            style: .done,
+            target: self,
+            action: #selector(didTapSearch)
+        )
+        
         notificationButton.tintColor = UIColor.systemOrange
-        navigationItem.rightBarButtonItem = notificationButton
+        searchButton.tintColor = UIColor.systemOrange
+        navigationItem.rightBarButtonItems = [notificationButton, searchButton]
         
         setupScrollView()
         addSubviews()
@@ -129,9 +137,12 @@ class HomeViewController: UIViewController {
         setUpValues()
         
         category1Button.addTarget(self, action: #selector(didTapCategory1Button), for: .touchUpInside)
+        category1Button.addTarget(self, action: #selector(didTapCategory1Button), for: .touchUpInside)
         category2Button.addTarget(self, action: #selector(didTapCategory2Button), for: .touchUpInside)
         category3Button.addTarget(self, action: #selector(didTapCategory3Button), for: .touchUpInside)
         category4Button.addTarget(self, action: #selector(didTapCategory4Button), for: .touchUpInside)
+        usernameLabel.isUserInteractionEnabled = true
+        usernameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(usernameLabelPressed(_:))))
     }
     
     //MARK: - SetUp ScrollView
@@ -178,12 +189,12 @@ class HomeViewController: UIViewController {
         spinner.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
         spinner.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         
-        userProfileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -35).isActive = true
+        userProfileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -30).isActive = true
         userProfileImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         userProfileImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         userProfileImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        welcomeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -22).isActive = true
+        welcomeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -17).isActive = true
         welcomeLabel.leftAnchor.constraint(equalTo: userProfileImageView.rightAnchor, constant: 10).isActive = true
         welcomeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
         
@@ -193,23 +204,23 @@ class HomeViewController: UIViewController {
         
         stepLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
         stepLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
-        stepLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3).isActive = true
-        stepLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        stepLabel.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        stepLabel.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
         calorieBurnLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
         calorieBurnLabel.leftAnchor.constraint(equalTo: stepLabel.rightAnchor, constant: 5).isActive = true
         calorieBurnLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3).isActive = true
-        calorieBurnLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        calorieBurnLabel.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
         progressLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20).isActive = true
         progressLabel.leftAnchor.constraint(equalTo: calorieBurnLabel.rightAnchor, constant: 5).isActive = true
         progressLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
-        progressLabel.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        progressLabel.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
-        chartImageView.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 8).isActive = true
+        chartImageView.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 5).isActive = true
         chartImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
         chartImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
-        chartImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        chartImageView.heightAnchor.constraint(equalToConstant: 0).isActive = true
         
         sectionHeader1.topAnchor.constraint(equalTo: chartImageView.bottomAnchor, constant: 10).isActive = true
         sectionHeader1.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
@@ -266,13 +277,22 @@ class HomeViewController: UIViewController {
         userProfileImageView.image = UIImage(named: "avatar")
         welcomeLabel.text = "WELCOME BACK 👋"
         usernameLabel.text = "MICHALE BERNANDO"
+        chartImageView.image = UIImage(named: "chart_home")
+        sectionHeader1.text = "Exercise List"
+        sectionHeader2.text = "Home Workout Plans"
         
+        visibleComponents(isVisible: false)
+        setCardValues()
+        fetchExerciseData(category: category1Button.title(for: .normal)!)
+    }
+    
+    private func setCardValues(){
         let keyAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 11, weight: .regular),
+            .font: UIFont.systemFont(ofSize: 17, weight: .regular),
             .foregroundColor: UIColor.label
         ]
         let valueAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 21, weight: .semibold)
+            .font: UIFont.systemFont(ofSize: 22, weight: .bold)
         ]
         
         let attributedStepText = NSMutableAttributedString()
@@ -280,10 +300,10 @@ class HomeViewController: UIViewController {
             let attachment = NSTextAttachment()
             attachment.image = systemIcon
             
-            attachment.bounds = CGRect(x: 0, y: -2, width: 25, height: 25)
+            attachment.bounds = CGRect(x: 0, y: -2, width: 40, height: 42)
             attributedStepText.append(NSAttributedString(attachment: attachment))
         }
-        attributedStepText.append(NSAttributedString(string: "\n75\n", attributes: valueAttributes))
+        attributedStepText.append(NSAttributedString(string: "\n687\n", attributes: valueAttributes))
         attributedStepText.append(NSAttributedString(string: "STEPS", attributes: keyAttributes))
         stepLabel.attributedText = attributedStepText
         
@@ -292,10 +312,10 @@ class HomeViewController: UIViewController {
             let attachment = NSTextAttachment()
             attachment.image = systemIcon
             
-            attachment.bounds = CGRect(x: 0, y: -2, width: 25, height: 25)
+            attachment.bounds = CGRect(x: 0, y: -2, width: 40, height: 42)
             attributedCalorieBurnText.append(NSAttributedString(attachment: attachment))
         }
-        attributedCalorieBurnText.append(NSAttributedString(string: "\n3874 KCAL\n", attributes: valueAttributes))
+        attributedCalorieBurnText.append(NSAttributedString(string: "\n\(AuthManager.burnedCal) Kcal\n", attributes: valueAttributes))
         attributedCalorieBurnText.append(NSAttributedString(string: "CAL BURN", attributes: keyAttributes))
         calorieBurnLabel.attributedText = attributedCalorieBurnText
         
@@ -304,19 +324,12 @@ class HomeViewController: UIViewController {
             let attachment = NSTextAttachment()
             attachment.image = systemIcon
             
-            attachment.bounds = CGRect(x: 0, y: -2, width: 25, height: 25)
+            attachment.bounds = CGRect(x: 0, y: -2, width: 40, height: 40)
             attributedProgressText.append(NSAttributedString(attachment: attachment))
         }
-        attributedProgressText.append(NSAttributedString(string: "\n3/10\n", attributes: valueAttributes))
+        attributedProgressText.append(NSAttributedString(string: "\n\(AuthManager.progressLevel)/7\n", attributes: valueAttributes))
         attributedProgressText.append(NSAttributedString(string: "PROGRESS", attributes: keyAttributes))
         progressLabel.attributedText = attributedProgressText
-        
-        chartImageView.image = UIImage(named: "chart_home")
-        sectionHeader1.text = "Exercise List"
-        sectionHeader2.text = "Home Workout Plans"
-        
-        visibleComponents(isVisible: false)
-        fetchExerciseData(category: category1Button.title(for: .normal)!)
     }
     
     // Fetching Data from API Call
@@ -381,6 +394,14 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(subVC, animated: true)
     }
     
+    @objc private func didTapSearch(){
+        //        print("DEBUG PRINT:", "didTapSearch")
+        
+        let subVC = SearchExerciseViewController()
+        subVC.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.pushViewController(subVC, animated: true)
+    }
+    
     @objc private func didTapCategory1Button(){
         activeButton(uiButton: category1Button)
         //        print("DEBUG PRINT:", "didTapCategory1Button")
@@ -407,6 +428,12 @@ class HomeViewController: UIViewController {
         //        print("DEBUG PRINT:", "didTapCategory4Button")
         
         fetchExerciseData(category: category4Button.title(for: .normal)!)
+    }
+    
+    @objc func usernameLabelPressed(_ gesture: UITapGestureRecognizer) {
+        //                print("DEBUG PRINT:", "welcomeLabelPressed")
+        
+        setCardValues()
     }
     
     private func activeButton(uiButton: UIButton) {

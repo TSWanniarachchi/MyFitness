@@ -17,6 +17,9 @@
 		0329B92029B79C4200F3BB30 /* CustomHorizontalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0329B91F29B79C4200F3BB30 /* CustomHorizontalBar.swift */; };
 		0329B92429B84F1000F3BB30 /* TargetMuscleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0329B92329B84F1000F3BB30 /* TargetMuscleCollectionViewCell.swift */; };
 		032CED4A2A173CE5004C73A3 /* push-ups-demo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 032CED492A173CE4004C73A3 /* push-ups-demo.mp4 */; };
+		0350E1752A22635C00B0644C /* SearchExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0350E1742A22635C00B0644C /* SearchExercise.swift */; };
+		0350E1772A23113100B0644C /* WorkoutPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0350E1762A23113100B0644C /* WorkoutPlan.swift */; };
+		0354DEDE2A245DB2001DD0EC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0354DEDD2A245DB2001DD0EC /* Kingfisher */; };
 		035BF6272A147BF400F9E553 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035BF6262A147BF400F9E553 /* Response.swift */; };
 		035BF62C2A15132000F9E553 /* WorkoutPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035BF62B2A15132000F9E553 /* WorkoutPlanViewController.swift */; };
 		03AC074E29B4B5E50042CD08 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AC074D29B4B5E50042CD08 /* CustomLabel.swift */; };
@@ -27,6 +30,7 @@
 		03B4961929B4599500389F5C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B4961829B4599500389F5C /* SceneDelegate.swift */; };
 		03B4962029B45A8F00389F5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03B4961F29B45A8F00389F5C /* Assets.xcassets */; };
 		03B4962329B45A8F00389F5C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03B4962129B45A8F00389F5C /* LaunchScreen.storyboard */; };
+		03BBC1442A21EC42000BB41D /* SearchExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BBC1432A21EC42000BB41D /* SearchExerciseViewController.swift */; };
 		03BD65162A1D2ED300B14DA5 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BD65152A1D2ED300B14DA5 /* AuthManager.swift */; };
 		03BD65182A1E34E600B14DA5 /* UserDetailDifficultyLevelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BD65172A1E34E500B14DA5 /* UserDetailDifficultyLevelViewController.swift */; };
 		03CD5A4D2A19D38600769F1F /* UserDetailWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CD5A4C2A19D38500769F1F /* UserDetailWeightViewController.swift */; };
@@ -61,6 +65,8 @@
 		0329B91F29B79C4200F3BB30 /* CustomHorizontalBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHorizontalBar.swift; sourceTree = "<group>"; };
 		0329B92329B84F1000F3BB30 /* TargetMuscleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetMuscleCollectionViewCell.swift; sourceTree = "<group>"; };
 		032CED492A173CE4004C73A3 /* push-ups-demo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "push-ups-demo.mp4"; sourceTree = "<group>"; };
+		0350E1742A22635C00B0644C /* SearchExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExercise.swift; sourceTree = "<group>"; };
+		0350E1762A23113100B0644C /* WorkoutPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlan.swift; sourceTree = "<group>"; };
 		035BF6262A147BF400F9E553 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		035BF62B2A15132000F9E553 /* WorkoutPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlanViewController.swift; sourceTree = "<group>"; };
 		03AC074D29B4B5E50042CD08 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
@@ -73,6 +79,7 @@
 		03B4961F29B45A8F00389F5C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03B4962229B45A8F00389F5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03B4962429B45A8F00389F5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03BBC1432A21EC42000BB41D /* SearchExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExerciseViewController.swift; sourceTree = "<group>"; };
 		03BD65152A1D2ED300B14DA5 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		03BD65172A1E34E500B14DA5 /* UserDetailDifficultyLevelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailDifficultyLevelViewController.swift; sourceTree = "<group>"; };
 		03CD5A4C2A19D38500769F1F /* UserDetailWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailWeightViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0354DEDE2A245DB2001DD0EC /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +182,9 @@
 			isa = PBXGroup;
 			children = (
 				03DAC0B92A0CFF1200901BAD /* Exercise.swift */,
+				0350E1742A22635C00B0644C /* SearchExercise.swift */,
 				035BF6262A147BF400F9E553 /* Response.swift */,
+				0350E1762A23113100B0644C /* WorkoutPlan.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +238,7 @@
 		035BF62A2A15127900F9E553 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				03BBC1432A21EC42000BB41D /* SearchExerciseViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -348,6 +359,9 @@
 			dependencies = (
 			);
 			name = MyFitness;
+			packageProductDependencies = (
+				0354DEDD2A245DB2001DD0EC /* Kingfisher */,
+			);
 			productName = MyFitness;
 			productReference = 03B4961329B4599100389F5C /* MyFitness.app */;
 			productType = "com.apple.product-type.application";
@@ -376,6 +390,9 @@
 				Base,
 			);
 			mainGroup = 03B4960A29B4598A00389F5C;
+			packageReferences = (
+				0354DEDC2A245DB2001DD0EC /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 03B4961429B4599100389F5C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -408,8 +425,10 @@
 			files = (
 				03038CED29B48DD90073169A /* ColorGuide.swift in Sources */,
 				03DAC0BC2A0D0D8C00901BAD /* EndPoint.swift in Sources */,
+				0350E1772A23113100B0644C /* WorkoutPlan.swift in Sources */,
 				03D7138A2A0937EB00DA9764 /* ExerciseListCollectionViewCell.swift in Sources */,
 				03FA53412A190DAA00FBEFDD /* UserDetailHeightViewController.swift in Sources */,
+				0350E1752A22635C00B0644C /* SearchExercise.swift in Sources */,
 				03F0077E2A109E8B00EA1BD4 /* CustomImageButton.swift in Sources */,
 				03BD65182A1E34E600B14DA5 /* UserDetailDifficultyLevelViewController.swift in Sources */,
 				03DAC0BE2A0D143C00901BAD /* Request.swift in Sources */,
@@ -431,6 +450,7 @@
 				03AC075229B4F9510042CD08 /* UIView +Extension.swift in Sources */,
 				03FA53372A18B10F00FBEFDD /* NotificationViewController.swift in Sources */,
 				03038CEA29B48A260073169A /* UIColor +Extensions.swift in Sources */,
+				03BBC1442A21EC42000BB41D /* SearchExerciseViewController.swift in Sources */,
 				035BF6272A147BF400F9E553 /* Response.swift in Sources */,
 				03CD5A4D2A19D38600769F1F /* UserDetailWeightViewController.swift in Sources */,
 				03CD5A4F2A19DD5200769F1F /* UserDetailFitnessGoalViewController.swift in Sources */,
@@ -646,6 +666,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0354DEDC2A245DB2001DD0EC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0354DEDD2A245DB2001DD0EC /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0354DEDC2A245DB2001DD0EC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 03B4960B29B4598C00389F5C /* Project object */;
 }

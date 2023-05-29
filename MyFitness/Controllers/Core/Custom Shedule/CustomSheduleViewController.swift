@@ -227,11 +227,15 @@ extension CustomScheduleViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        let selectedExercise =  CustomScheduleExerciseData[indexPath.row]
-        //
-        //        let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
-        //        detailVC.navigationItem.largeTitleDisplayMode = .never
-        //        navigationController?.pushViewController(detailVC, animated: true)
+        let selectedExercise =  CustomScheduleExerciseData[indexPath.row]
+        
+        let backButton = UIBarButtonItem()
+        backButton.title = "Back"
+        navigationItem.backBarButtonItem = backButton
+        
+        let detailVC = ExerciseDetailViewController(exercise: selectedExercise)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

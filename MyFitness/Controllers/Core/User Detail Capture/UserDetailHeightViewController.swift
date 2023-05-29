@@ -97,7 +97,7 @@ class UserDetailHeightViewController: UIViewController {
     private func setUpValues() {
         headerLabel.text = "What's Your Current \nHeight?"
         heightValueTypeLabel.text = "Ft"
-        AuthManager.height = "\(HeightList[defaultSelectedRow])"
+        AuthManager.height = Double(HeightList[defaultSelectedRow])!
         heighValueLabel.text = "\(HeightList[defaultSelectedRow]) Ft"
     }
     
@@ -133,7 +133,7 @@ extension UserDetailHeightViewController: UIPickerViewDelegate, UIPickerViewData
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selectedValue = HeightList[row]
-        AuthManager.height = selectedValue
+        AuthManager.height = Double(selectedValue)!
         heighValueLabel.text = "\(selectedValue) Ft"
     }
     

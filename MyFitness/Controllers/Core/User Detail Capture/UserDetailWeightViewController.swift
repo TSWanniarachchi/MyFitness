@@ -103,7 +103,7 @@ class UserDetailWeightViewController: UIViewController {
         weightValueTypeLabel.text = "Kg"
         wholeWeightSelectedOption = wholeWeightList[defaultSelectedRow]
         fractionalWeightSelectedOption = fractionalWeightList[defaultSelectedRow]
-        AuthManager.weight = "\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption)"
+        AuthManager.weight = Double("\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption)")!
         weightValueLabel.text = "\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption) Kg"
     }
     
@@ -153,7 +153,7 @@ extension UserDetailWeightViewController: UIPickerViewDelegate, UIPickerViewData
             fractionalWeightSelectedOption = fractionalWeightList[row]
         }
         let selectedValue = "\(wholeWeightSelectedOption)\(fractionalWeightSelectedOption)"
-        AuthManager.weight = selectedValue
+        AuthManager.weight = Double(selectedValue)!
         weightValueLabel.text = "\(selectedValue) Kg"
     }
     

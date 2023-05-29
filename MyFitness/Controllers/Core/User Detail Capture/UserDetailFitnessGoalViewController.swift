@@ -19,11 +19,11 @@ class UserDetailFitnessGoalViewController: UIViewController {
                                                textAlignment: .center)
     
     private let buildMuscleOptionButton = CustomButton(buttonType: .secondary,
-                                                       title: "💪 Build Muscle",
+                                                       title: "💪 Muscle Build",
                                                        fontsize: .option)
     
     private let loseWeightOptionButton = CustomButton(buttonType: .secondary,
-                                                      title: "🏋️‍♀️ Lose Weight",
+                                                      title: "🏋️‍♀️ Weight Lose",
                                                       fontsize: .option)
     
     private let improveEnduranceOptionButton = CustomButton(buttonType: .secondary,
@@ -115,28 +115,28 @@ class UserDetailFitnessGoalViewController: UIViewController {
         //        print("DEBUG PRINT:", "didTapBuildMuscleOptionButton")
         
         selectedOption(uiButton: buildMuscleOptionButton)
-        AuthManager.fitnessGoal = "Build Muscle"
+        AuthManager.fitnessGoal = "Muscle_Build"
     }
     
     @objc private func didTapLoseWeightOptionButton(){
         //        print("DEBUG PRINT:", "didTapLoseWeightOptionButton")
         
         selectedOption(uiButton: loseWeightOptionButton)
-        AuthManager.fitnessGoal = "Lose Weight"
+        AuthManager.fitnessGoal = "Weight_Lose"
     }
     
     @objc private func didTapImproveEnduranceOptionButton(){
         //        print("DEBUG PRINT:", "didTapImproveEnduranceOptionButton")
         
         selectedOption(uiButton: improveEnduranceOptionButton)
-        AuthManager.fitnessGoal = "Improve Endurance"
+        AuthManager.fitnessGoal = "Improve_Endurance"
     }
     
     @objc private func didTapGainStrengthOptionButton(){
         //        print("DEBUG PRINT:", "didTapGainStrengthOptionButton")
         
         selectedOption(uiButton: gainStrengthOptionButton)
-        AuthManager.fitnessGoal = "Gain Strength"
+        AuthManager.fitnessGoal = "Gain_Strength"
     }
     
     @objc private func didTapNextButton(){

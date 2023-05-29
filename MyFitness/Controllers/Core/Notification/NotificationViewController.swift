@@ -25,7 +25,7 @@ class NotificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Notification"
+        title = "Notifications"
         
         addSubviews()
         setUpConstraints()
@@ -48,7 +48,7 @@ class NotificationViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            notificationLabel1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            notificationLabel1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             notificationLabel1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5),
             notificationLabel1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5),
             notificationLabel1.heightAnchor.constraint(equalToConstant: 70),

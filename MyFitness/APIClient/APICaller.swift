@@ -52,12 +52,12 @@ final class APICaller {
             
             let task = URLSession.shared.dataTask(with: request) {
                 data, response, error in
-
+                
                 guard let data = data, error == nil else{
                     completion(.failure(error ?? APIError.failedToGetData))
                     return
                 }
-
+                
                 // Decode response
                 do{
                     let result = try JSONDecoder().decode([ResponseModel].self, from: data)
@@ -66,11 +66,11 @@ final class APICaller {
                 catch{
                     completion(.failure(error))
                 }
-            
+                
             }
             task.resume()
         }
-
+        
     }
     
     public func getCustomSchedules(URL url: String, completion: @escaping (Result<[ExerciseModel], Error>) -> Void) {
@@ -126,8 +126,6 @@ final class APICaller {
         }
         
     }
-
-    
     
     
     // MARK: - Create HTTP Request
