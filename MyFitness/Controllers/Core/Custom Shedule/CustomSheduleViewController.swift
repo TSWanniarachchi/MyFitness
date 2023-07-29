@@ -36,6 +36,15 @@ class CustomScheduleViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = "My Custom Shedule"
         
+        let refreshButton = UIBarButtonItem(
+            image: UIImage(systemName: "repeat.circle"),
+            style: .done,
+            target: self,
+            action: #selector(didTapRefreshButton)
+        )
+        refreshButton.tintColor = UIColor.systemOrange
+        navigationItem.rightBarButtonItems = [refreshButton]
+        
         addSubviews()
         setUpConstraints()
         setUpTableView()
@@ -198,6 +207,13 @@ class CustomScheduleViewController: UIViewController {
             self.customScheduleTableView.isHidden = true
             self.customScheduleTableView.alpha = 0
         }
+    }
+    
+    @objc private func didTapRefreshButton(){
+        //        print("DEBUG PRINT:", "didTapRefreshButton")
+        
+        visibleComponents(isVisible: false)
+        fetchCustomScheduleExercisesData(userId: "sachin")
     }
     
 }
