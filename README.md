@@ -1,2 +1,3 @@
 # MyFitness
-MyFitness iOS application provides gym-based workout routines for all your major muscle groups.
+
+MyFitness is an iOS application developed as an individual project for the **iOS Application Development** module during the 4th year 1st semester of my BSc (Hons) Computing degree.
